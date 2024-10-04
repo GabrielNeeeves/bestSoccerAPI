@@ -28,7 +28,7 @@ body, html {
     font-weight: bold;
 }
 .loader {
-    border: 8px solid #f3f3f3;
+    border: 8px solid #919090;
     border-top: 8px solid #51ff00;
     border-radius: 50%;
     margin-left: 50%;
