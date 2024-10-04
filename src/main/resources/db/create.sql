@@ -48,7 +48,7 @@ CREATE TABLE UsuarioAdmin (
 -- Criando a tabela UsuarioComum 
 CREATE TABLE UsuarioComum ( 
     usuarioID INT PRIMARY KEY, 
-    FOREIGN KEY (usuarioID) REFERENCES Usuario(id) 
+    FOREIGN KEY (usuarioID) REFERENCES Usuario(id)
 ); 
 
 
