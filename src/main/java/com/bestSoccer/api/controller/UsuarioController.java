@@ -1,7 +1,11 @@
 package com.bestSoccer.api.controller;
 
 import com.bestSoccer.api.model.DTO.UsuarioDTO;
+import com.bestSoccer.api.model.UsuarioAdmin;
+import com.bestSoccer.api.model.UsuarioComum;
 import com.bestSoccer.api.model.UsuarioModel;
+import com.bestSoccer.api.repository.UsuarioAdminRepository;
+import com.bestSoccer.api.repository.UsuarioComumRepository;
 import com.bestSoccer.api.repository.UsuarioRepository;
 import com.bestSoccer.api.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +16,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping(value = "/usuarios")
 public class UsuarioController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private UsuarioAdminRepository usuarioAdminRepository;
+
+    @Autowired
+    private UsuarioComumRepository usuarioComumRepository;
 
     @Autowired
     private UsuarioService usuarioService;
@@ -55,6 +65,45 @@ public class UsuarioController {
         } catch(Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+
+    //==============================================================================================
+    // Usuarios ADMINs
+    //==============================================================================================
+
+    //GET ADMINS
+    @GetMapping("/admin")
+    public ResponseEntity<List<UsuarioAdmin>> getAdmin() {
+        List<UsuarioAdmin> lista = usuarioAdminRepository.findAll();
+        return ResponseEntity.ok(lista);
+    }
+
+    //POST ADMIN
+    @PostMapping("/admin/{id}")
+    public ResponseEntity<UsuarioAdmin> postAdmin(@PathVariable Long id) {
+
+        UsuarioAdmin userAdmin = usuarioService.createAdmin(id);
+        return ResponseEntity.ok(userAdmin);
+    }
+
+    //==============================================================================================
+    // Usuarios Comums
+    //==============================================================================================
+
+    //GET
+    @GetMapping("/comum")
+    public ResponseEntity<List<UsuarioComum>> getComum() {
+        List<UsuarioComum> lista = usuarioComumRepository.findAll();
+        return ResponseEntity.ok(lista);
+    }
+
+    //POST COMUM
+    @PostMapping("/comum/{id}")
+    public ResponseEntity<UsuarioComum> postComum(@PathVariable Long id) {
+
+        UsuarioComum userComum = usuarioService.createComum(id);
+        return ResponseEntity.ok(userComum);
     }
 
 }

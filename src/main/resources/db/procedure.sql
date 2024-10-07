@@ -79,7 +79,7 @@ CALL sp_admin(4)
 
 
 --cadastrar usuarioComum
-CREATE PROCEDURE sp_admin(
+CREATE PROCEDURE sp_comum(
 	userId int
 )
 LANGUAGE plpgsql
@@ -87,5 +87,6 @@ AS $$ BEGIN
 	insert into usuarioComum values (userId);
 END $$;
 
-CALL sp_admin(5)
+CALL sp_admin(6)
+
 

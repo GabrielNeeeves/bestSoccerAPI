@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "UsuarioComum")
+@Table(name = "usuariocomum")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -20,7 +20,22 @@ public class UsuarioComum {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "usuarioid", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "usuarioID", referencedColumnName = "id")
     private UsuarioModel usuario;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public UsuarioModel getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioModel usuario) {
+        this.usuario = usuario;
+    }
 }
