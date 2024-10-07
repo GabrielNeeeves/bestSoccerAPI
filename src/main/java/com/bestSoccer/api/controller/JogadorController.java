@@ -3,6 +3,7 @@ package com.bestSoccer.api.controller;
 import com.bestSoccer.api.model.DTO.JogadorDTO;
 import com.bestSoccer.api.model.JogadorModel;
 import com.bestSoccer.api.repository.JogadorRepo;
+import com.bestSoccer.api.service.JogadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -21,10 +22,22 @@ public class JogadorController {
     @Autowired
     private JogadorRepo jogadorRepo;
 
+    @Autowired
+    private JogadorService jogadorService;
+
     //GET
     @GetMapping
     public ResponseEntity<List<JogadorModel>> getJogador() {
         return ResponseEntity.ok(jogadorRepo.findAll());
+    }
+
+    //FIND BY ID
+    @GetMapping("/{id}")
+    public ResponseEntity<JogadorModel> findById(@PathVariable Long id) {
+
+           Optional<JogadorModel> optJogador = jogadorRepo.findById(id);
+           if(optJogador.isPresent()) return ResponseEntity.ok(optJogador.get());
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     //POST
@@ -45,10 +58,17 @@ public class JogadorController {
         jogadorRepo.deleteById(id);
     }
 
+    //PUT BY ID
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateJogador(@PathVariable Long id, @RequestBody JogadorDTO jogDto) {
+    public ResponseEntity<JogadorModel> updateJogador(@PathVariable Long id, @RequestBody JogadorModel novoJogador) {
         try {
-            Optional<JogadorModel> jogFromDb = jogadorRepo.findById(id);
+            JogadorModel nvJog = jogadorService.updatePorId(id, novoJogador);
+            return ResponseEntity.ok(nvJog);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+
         }
     }
+
+
 }
