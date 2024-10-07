@@ -51,5 +51,3 @@ CREATE TABLE UsuarioComum (
     FOREIGN KEY (usuarioID) REFERENCES Usuario(id)
 ); 
 
-
-

@@ -16,11 +16,11 @@ public class UsuarioComum {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "usuarioID")
+    @Column(name = "usuarioid")
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "usuarioID", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "usuarioid", referencedColumnName = "id", insertable = false, updatable = false)
     private UsuarioModel usuario;
 
 }

@@ -27,7 +27,7 @@ public class PartidaModel {
     @Column(nullable = false)
     private LocalTime hora;
 
-    @Column(length = 100, nullable = false)
+    @Column(name = "timeadversario", length = 100, nullable = false)
     private String timeAdversario;
 
     @Column(nullable = false)
