@@ -33,17 +33,17 @@ CREATE TABLE PartidaJogadores (
 
 --Usuario
 CREATE TABLE usuario (
-	id serial PRIMARY KEY,
-	nome varchar(100) NOT NULL,
-	email VARCHAR(100) NOT NULL UNIQUE, 
+  	id serial PRIMARY KEY,
+  	nome varchar(100) NOT NULL,
+  	email VARCHAR(100) NOT NULL UNIQUE,
     senha VARCHAR(100) NOT NULL
-);
+  );
 
---UsuarioAdmin
-CREATE TABLE UsuarioAdmin ( 
-    usuarioID serial PRIMARY KEY, 
-    FOREIGN KEY (usuarioID) REFERENCES Usuario(id) 
-);
+  --UsuarioAdmin
+  CREATE TABLE UsuarioAdmin (
+      usuarioID serial PRIMARY KEY,
+      FOREIGN KEY (usuarioID) REFERENCES Usuario(id)
+  );
 
 -- Criando a tabela UsuarioComum 
 CREATE TABLE UsuarioComum ( 
