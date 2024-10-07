@@ -100,10 +100,13 @@ public class UsuarioController {
 
     //POST COMUM
     @PostMapping("/comum/{id}")
-    public ResponseEntity<UsuarioComum> postComum(@PathVariable Long id) {
+    public ResponseEntity<String> postComum(@PathVariable Long id) {
+        try {
+            usuarioService.createComum(id);
+            return new ResponseEntity<>("Usuário Comum cadastrado com sucesso", HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erro ao cadastrar usuário comum: " + e.getMessage(), HttpStatus.BAD_REQUEST);
 
-        UsuarioComum userComum = usuarioService.createComum(id);
-        return ResponseEntity.ok(userComum);
+        }
     }
-
 }

@@ -11,3 +11,4 @@ CALL sp_cadpartidajogadores(1, 1, 2)
 CALL sp_cadpartidajogadores(1, 2, 1) 
 
 CALL sp_cadpartidajogadores(2, 1, 0) 
+

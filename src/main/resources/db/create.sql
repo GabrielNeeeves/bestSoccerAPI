@@ -49,8 +49,11 @@ CREATE TABLE usuario (
  
 
 -- Criando a tabela UsuarioComum 
-CREATE TABLE UsuarioComum ( 
-    usuarioID INT PRIMARY KEY, 
-    FOREIGN KEY (usuarioID) REFERENCES Usuario(id) ON DELETE cascade
+CREATE TABLE usuariocomum ( 
+    usuarioid INT PRIMARY KEY, 
+    FOREIGN KEY (usuarioid) REFERENCES usuario(id) ON DELETE cascade
 ); 
 
+DROP TABLE usuariocomum cascade
+
+SELECT * FROM UsuarioComum

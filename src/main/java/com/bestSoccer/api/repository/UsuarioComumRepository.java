@@ -11,7 +11,7 @@ public interface UsuarioComumRepository extends JpaRepository<UsuarioComum, Long
 
     @Procedure(procedureName = "sp_comum")
     void cadComum(
-            @Param("usuarioid")Long usuarioid
+            @Param("userid")Long userid
     );
 
 }

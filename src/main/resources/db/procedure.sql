@@ -80,13 +80,18 @@ CALL sp_admin(4)
 
 --cadastrar usuarioComum
 CREATE PROCEDURE sp_comum(
-	userId int
+	userId bigint
 )
 LANGUAGE plpgsql
 AS $$ BEGIN
-	insert into usuarioComum values (userId);
+	insert into usuarioComum (usuarioid) values (userId);
 END $$;
 
+DROP PROCEDURE sp_comum
+
 CALL sp_admin(6)
+CALL sp_comum(2)
+
+SELECT * FROM v_usuariocomum vu 
 
 

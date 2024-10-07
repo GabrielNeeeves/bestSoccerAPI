@@ -45,14 +45,11 @@ public class UsuarioService {
     }
 
     //CREATE USUARIO COMUM
-    public UsuarioComum createComum(Long id) {
+    public void createComum(Long id) {
         UsuarioModel usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
 
-        UsuarioComum usuarioComum = new UsuarioComum();
-        usuarioComum.setUsuario(usuario);
-
-        return usuarioComumRepository.save(usuarioComum);
+        usuarioComumRepository.cadComum(id);
     }
 
     //atualizar usuario Comum por id
