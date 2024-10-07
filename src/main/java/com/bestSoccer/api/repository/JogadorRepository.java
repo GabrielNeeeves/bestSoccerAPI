@@ -8,9 +8,9 @@ import org.springframework.data.repository.query.Param;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-public interface JogadorRepo extends JpaRepository<JogadorModel, Long> {
+public interface JogadorRepository extends JpaRepository<JogadorModel, Long> {
 
-    //criar Jogador pela Procedure
+    //criar Jogador pela Procedure 'sp_cadjogador'
     @Procedure(procedureName = "sp_cadjogador")
     void cadJogador(
             @Param("nome") String nome,

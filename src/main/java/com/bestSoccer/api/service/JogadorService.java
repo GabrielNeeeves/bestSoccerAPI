@@ -1,11 +1,8 @@
 package com.bestSoccer.api.service;
 
-import com.bestSoccer.api.model.DTO.JogadorDTO;
 import com.bestSoccer.api.model.JogadorModel;
-import com.bestSoccer.api.repository.JogadorRepo;
-import org.apache.coyote.Response;
+import com.bestSoccer.api.repository.JogadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,7 +11,7 @@ import java.util.Optional;
 public class JogadorService {
 
     @Autowired
-    private JogadorRepo jogRepo;
+    private JogadorRepository jogRepo;
 
     //autalizar por id
     public void updateJogador(Long id, JogadorModel novoJogModel) {

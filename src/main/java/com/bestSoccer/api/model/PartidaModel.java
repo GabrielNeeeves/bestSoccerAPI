@@ -33,4 +33,43 @@ public class PartidaModel {
     @Column(nullable = false)
     private String local;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDate getData() {
+        return data;
+    }
+
+    public void setData(LocalDate data) {
+        this.data = data;
+    }
+
+    public LocalTime getHora() {
+        return hora;
+    }
+
+    public void setHora(LocalTime hora) {
+        this.hora = hora;
+    }
+
+    public String getTimeAdversario() {
+        return timeAdversario;
+    }
+
+    public void setTimeAdversario(String timeAdversario) {
+        this.timeAdversario = timeAdversario;
+    }
+
+    public String getLocal() {
+        return local;
+    }
+
+    public void setLocal(String local) {
+        this.local = local;
+    }
 }
