@@ -32,7 +32,7 @@ public class PartidaController {
     public ResponseEntity<String> postPartida(@RequestBody PartidaDTO partidaDTO) {
         try {
             partidaRepository.cadPartida(partidaDTO.getData(), partidaDTO.getHora(), partidaDTO.getTimeadv(), partidaDTO.getLocal());
-            return new ResponseEntity<>("Jogador Cadastrado", HttpStatus.CREATED);
+            return new ResponseEntity<>("Partida Cadastrado", HttpStatus.CREATED);
         } catch(Exception e) {
             return new ResponseEntity<>("Erro ao cadastrar: "+e.getMessage(), HttpStatus.BAD_REQUEST);
         }
