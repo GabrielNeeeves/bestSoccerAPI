@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Entity
 @Table(
         name = "Jogador",
-        uniqueConstraints = @UniqueConstraint(columnNames = "id")
+        uniqueConstraints = @UniqueConstraint(columnNames = "id") // ----> PODE DAR ERRO <----
 )
 @Getter
 @Setter
