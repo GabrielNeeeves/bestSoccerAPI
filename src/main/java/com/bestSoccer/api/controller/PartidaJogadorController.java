@@ -30,7 +30,7 @@ public class PartidaJogadorController {
     }
 
     //PUT
-    @PostMapping("/partidaid/{parid}/jogadorid/{id}")
+    @PutMapping("/partidaid/{partidaid}/jogadorid/{jogadorid}")
     public void postPartidaJogador(
             @PathVariable Integer partidaid,
             @PathVariable Integer jogadorid,
