@@ -92,6 +92,4 @@ DROP PROCEDURE sp_comum
 CALL sp_admin(6)
 CALL sp_comum(2)
 
-SELECT * FROM v_usuariocomum vu 
-
-
+SELECT * FROM v_usuariocomum vu

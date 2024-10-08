@@ -1,27 +1,38 @@
 package com.bestSoccer.api.model;
 
+import jakarta.persistence.Embeddable;
+
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Objects;
 
+@Embeddable
 public class PartidaJogadorId implements Serializable {
 
-    private Long partidaId;
-    private Long jogadorId;
+    private Integer partidaid;
+    private Integer jogadorid;
 
-    public Long getPartidaId() {
-        return partidaId;
+    public PartidaJogadorId(){}
+
+    public PartidaJogadorId(Integer partidaid, Integer jogadorid) {
+        this.partidaid = partidaid;
+        this.jogadorid = jogadorid;
     }
 
-    public void setPartidaId(Long partidaId) {
-        this.partidaId = partidaId;
+    public Integer getPartidaId() {
+        return partidaid;
     }
 
-    public Long getJogadorId() {
-        return jogadorId;
+    public void setPartidaId(Integer partidaId) {
+        this.partidaid = partidaId;
     }
 
-    public void setJogadorId(Long jogadorId) {
-        this.jogadorId = jogadorId;
+    public Integer getJogadorId() {
+        return jogadorid;
+    }
+
+    public void setJogadorId(Integer jogadorId) {
+        this.jogadorid = jogadorId;
     }
 
     @Override
@@ -29,11 +40,11 @@ public class PartidaJogadorId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PartidaJogadorId that = (PartidaJogadorId) o;
-        return Objects.equals(partidaId, that.partidaId) && Objects.equals(jogadorId, that.jogadorId);
+        return Objects.equals(partidaid, that.partidaid) && Objects.equals(jogadorid, that.jogadorid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(partidaId, jogadorId);
+        return Objects.hash(partidaid, jogadorid);
     }
 }
