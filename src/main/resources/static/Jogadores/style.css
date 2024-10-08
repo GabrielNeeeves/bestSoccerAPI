@@ -1,0 +1,224 @@
+* {
+    font-family: "Lato", sans-serif;
+    margin: 0;
+
+    --cor-tema: #38ca7d;
+    --cor-link: #48c6ef;
+    --cor-fundo: #f6f6f6;
+}
+
+body a#voltar input{
+    font-size: 28px;
+    color: var(--cor-tema);
+    padding: 7px;
+    margin: 3%;
+    border: none;
+    border-radius: 8px;
+
+    position: absolute;
+}
+
+body a#voltar input:hover {
+    transform: scale(1.2);
+    transition: .2s;
+    cursor: pointer;
+}
+
+
+/* navbar */
+nav.navbar {
+    background-color: var(--cor-tema);
+}
+
+nav.navbar div.collapse a {
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    text-shadow: 2px 2px 10px rgb(0, 0, 0);
+    padding: 8px;
+}
+
+nav.navbar div.collapse a:hover {
+    border-bottom: solid white;
+    transform: scale(1.2);
+    transition: .2s;
+}
+
+.navbar .navbar-toggler {
+    color: white;
+}
+
+.navbar .navbar-brand {
+    max-width: 20%;
+}
+
+.navbar img {
+    border-radius: 50%;
+    width: 100%;
+    max-height: 70px;
+}
+/* =========== */
+
+/* SECTION CIMA */
+section.cima {
+    width: 40vw;
+    
+    padding: 8px;
+    margin: 2% auto;
+    border-radius: 8px;
+    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 5%;
+}
+
+section.cima div.fotoJogador {
+    border-radius: 8px;
+
+    width: 75%;
+    
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, .3);
+}
+
+.cima div.fotoJogador img {
+    border-radius: 8px;
+    
+    width: 100%;
+    height: 100%;
+}
+
+.cima .dadosJogador {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+    width: 60vw;
+    
+    background-color: var(--cor);
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, .3);
+    border-radius: 8px;
+
+    padding: 20px 0;
+    margin: 2% auto;
+
+    border-left: solid var(--cor-tema);
+}
+
+.cima .dadosJogador h2 {
+    text-align: center;
+    
+    text-shadow: 0px 0px 2px var(--cor-tema);
+    border-bottom: solid var(--cor-tema);
+    
+    width: 100%;
+    
+    color: var(--cor-tema);
+    font-weight: bold;
+    font-size: 28px;
+}
+
+.cima .dadosJogador span {
+    text-shadow: 0px 0px 2px #808080;
+}
+
+.cima .dadosJogador p, h3 {
+    color: #808080;
+    font-size: 22px;
+}
+/* =========== */
+
+/* SECTION 'INFORMAÇÕES GERAIS' */
+section.baixo {
+    background-color: #fff;
+
+    padding: 20px 0;
+    margin: 0 auto;
+
+    width: 40vw;
+
+    border-radius: 8px;
+    box-shadow: 1px 1px 6px rgba(0, 0, 0, .4);
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8%;
+    border-left: solid var(--cor-tema);
+}
+
+section.baixo h1 {
+    text-align: center;
+    
+    text-shadow: 0px 0px 2px var(--cor-tema);
+    border-bottom: solid var(--cor-tema);
+    width: 100%;
+    
+    color: var(--cor-tema);
+    font-weight: bold;
+    font-size: 28px;
+}
+
+section.baixo h2 {
+    color: #808080;
+    font-size: 28px;
+
+    padding: 5px;
+    border-radius: 8px;
+}
+
+section.baixo h2 span {
+    text-shadow: 0px 0px 2px #808080;
+}
+/* =========== */
+
+/* HISTORICO */
+
+section.historico {
+    background-color: #fff;
+
+    padding: 20px 0 20px 0;
+    margin: 2% auto;
+
+    width: 40vw;
+
+    border-radius: 8px;
+    box-shadow: 1px 1px 6px rgba(0, 0, 0, .4);
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8%;
+    border-left: solid var(--cor-tema);
+}
+
+section.historico h1 {
+    text-align: center;
+    
+    text-shadow: 0px 0px 2px var(--cor-tema);
+    border-bottom: solid var(--cor-tema);
+
+    width: 100%;
+    
+    color: var(--cor-tema);
+    font-weight: bold;
+    font-size: 28px;
+}
+
+section.historico h2 {
+    color: #808080;
+    font-size: 28px;
+
+    padding: 5px;
+    border-radius: 8px;
+}
+
+section.historico h2 span {
+    text-shadow: 0px 0px 2px #808080;
+}
