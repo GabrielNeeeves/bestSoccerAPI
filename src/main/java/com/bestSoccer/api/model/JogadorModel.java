@@ -46,6 +46,8 @@ public class JogadorModel {
     @Column(name = "datanascimento", nullable = false)
     private LocalDate dataNascimento;
 
+    public JogadorModel(){}
+
     public Long getId() {
         return id;
     }

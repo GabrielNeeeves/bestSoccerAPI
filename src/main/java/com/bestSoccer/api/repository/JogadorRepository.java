@@ -22,6 +22,4 @@ public interface JogadorRepository extends JpaRepository<JogadorModel, Long> {
             @Param("nac") String nacionalidade,
             @Param("datanasc") Date dataNascimento
     );
-
-
 }
