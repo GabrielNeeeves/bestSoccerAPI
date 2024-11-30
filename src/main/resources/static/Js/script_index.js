@@ -1,8 +1,37 @@
 document.addEventListener('DOMContentLoaded', function () {
     const userSection = document.getElementById("user-section");
     const nomeUsuario = localStorage.getItem("nomeUsuario");
+    const tipoUsuario = localStorage.getItem("tipoUsuario");
 
     if (nomeUsuario) {
+        let menuItems = `
+            <li>
+                <a class="dropdown-item text-danger" href="#" id="logout-btn">
+                    <i class="bi bi-box-arrow-right me-2"></i> Sair
+                </a>
+            </li>
+        `;
+
+        if (tipoUsuario === "admin") {
+            menuItems = `
+                <li>
+                    <a class="dropdown-item" href="http://localhost:8080/usuario/admin">
+                        <i class="bi bi-gear-fill me-2"></i> Gerenciar Time
+                    </a>
+                </li>
+                ${menuItems}
+            `;
+        } else if (tipoUsuario === "tecnico") {
+            menuItems = `
+                <li>
+                    <a class="dropdown-item" href="http://localhost:8080/gerenciarTecnico">
+                        <i class="bi bi-gear-fill me-2"></i> Gerenciar Time
+                    </a>
+                </li>
+                ${menuItems}
+            `;
+        }
+
         const usuarioLogado = `
             <div class="dropdown">
                 <button class="btn dropdown-toggle d-flex align-items-center" 
@@ -19,20 +48,18 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                    <li>
-                        <a class="dropdown-item text-danger" href="#" id="logout-btn">
-                            <i class="bi bi-box-arrow-right me-2"></i> Sair
-                        </a>
-                    </li>
+                    ${menuItems}
                 </ul>
             </div>
         `;
+
         userSection.innerHTML = usuarioLogado;
 
         document.getElementById("logout-btn").addEventListener("click", function (e) {
             e.preventDefault();
             console.log('Logout clicado');
             localStorage.removeItem("nomeUsuario");
+            localStorage.removeItem("tipoUsuario");
             window.location.href = 'http://localhost:8080/';
         });
     } else {
@@ -41,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
         `;
         userSection.innerHTML = usuarioNaoLogado;
     }
+
 
     const apiUrlJogadores = 'http://localhost:8080/jogadores';
     const apiUrlJogos = 'http://localhost:8080/partidas';

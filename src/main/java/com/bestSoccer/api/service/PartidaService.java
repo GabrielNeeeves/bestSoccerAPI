@@ -1,27 +1,50 @@
 package com.bestSoccer.api.service;
 
-<<<<<<< HEAD
-=======
-import com.bestSoccer.api.model.PartidaModel;
-import com.bestSoccer.api.repository.PartidaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
->>>>>>> 8d1a811845ebbdb5c87c677cfe98c927da441271
 import org.springframework.stereotype.Service;
+
+import com.bestSoccer.api.model.PartidaView;
+import com.bestSoccer.api.repository.PartidaRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class PartidaService {
 
-<<<<<<< HEAD
-=======
     @Autowired
     private PartidaRepository partidaRepository;
 
-    //UPDATE BY ID
-    public PartidaModel updatePorId(Long id, PartidaModel novaPartida) {
-        novaPartida.setId(id);
-        return partidaRepository.save(novaPartida);
+    public PartidaView selectPorId(Long id) {
+        PartidaView partida = partidaRepository.findPartidaById(id);
+        if (partida == null) {
+            throw new RuntimeException("Partida com ID " + id + " não foi encontrado");
+        }
+        return partida;
     }
 
+    @Transactional
+    public void deletarPorId(Long id) {
+        PartidaView partida = partidaRepository.findPartidaById(id);
+        if (partida == null) {
+            throw new RuntimeException("Partida com ID " + id + " não foi encontrado");
+        }
+        partidaRepository.deletePartidaById(id);
+    }
 
->>>>>>> 8d1a811845ebbdb5c87c677cfe98c927da441271
+    @Transactional
+    public void atualizarPorId(Long id, PartidaView partidaAtualizado) {
+        PartidaView partida = partidaRepository.findPartidaById(id);
+        if (partida == null) {
+            throw new RuntimeException("Partida com ID " + id + " não foi encontrado");
+        }
+        partidaRepository.updatePartidaById(
+            id,
+            partidaAtualizado.getData(),
+            partidaAtualizado.getHora(),
+            partidaAtualizado.getTimeadversario(),
+            partidaAtualizado.getCampeonato(),
+            partidaAtualizado.getFoto()
+        );
+    }
+
 }

@@ -40,6 +40,7 @@ function enviarLogin(email, senha) {
     .then(data => {
         if (data.mensagem === "Login realizado com sucesso") {
             localStorage.setItem('nomeUsuario', data.nomeUsuario);
+            localStorage.setItem('tipoUsuario', data.tipoUsuario);
 
             Swal.fire({
                 icon: 'success',

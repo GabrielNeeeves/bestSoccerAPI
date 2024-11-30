@@ -1,5 +1,7 @@
 package com.bestSoccer.api.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,25 +9,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "usuario")
+@Table (name = "tecnico")
 @Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
-public class UsuarioModel {
+@Setter 
+public class TecnicoModel extends UsuarioModel{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
 
-    @Column
-    private String nome;
-
-    @Column
-    private String email;
-
-    @Column
-    private String senha;
+    @Column 
+    private LocalDate contrato;
 }

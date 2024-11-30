@@ -1,5 +1,7 @@
 package com.bestSoccer.api.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,17 +9,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "v_usuario")
+@Table (name = "v_tecnico")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UsuarioView {
+public class TecnicoView extends UsuarioView {
 
     @Id
     private Long id;
-    private String nome;
-    private String email;
-    private String senha; 
+    private LocalDate contrato;
 }

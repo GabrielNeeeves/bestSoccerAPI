@@ -1,139 +1,64 @@
-<<<<<<< HEAD
--- Criando a tabela Jogador
+-- Tabela Jogador
 CREATE TABLE Jogador (
     Id SERIAL PRIMARY KEY,
     Nome VARCHAR(100) NOT NULL,
-    pernaDominante VARCHAR(10) NOT NULL CHECK (pernaDominante IN ('esquerda', 'direita')),
-    posicao VARCHAR(50) NOT NULL,
-    altura DECIMAL(5,2) NOT NULL,
-    peso DECIMAL(5,2) NOT NULL,
-    contrato DATE NOT NULL,
-    nacionalidade VARCHAR(50) NOT NULL,
-    dataNascimento DATE NOT NULL,
-    foto VARCHAR(255) NOT NULL DEFAULT 'image/jogadorDesconhecido.jpg'
+    PernaDominante VARCHAR(10) NOT NULL CHECK (PernaDominante IN ('esquerda', 'direita')),
+    Posicao VARCHAR(50) NOT NULL,
+    Altura DECIMAL(5,2) NOT NULL,
+    Peso DECIMAL(5,2) NOT NULL,
+    Contrato DATE NOT NULL,
+    Nacionalidade VARCHAR(50) NOT NULL,
+    DataNascimento DATE NOT NULL,
+    Foto VARCHAR(255) NOT NULL DEFAULT 'image/jogadorDesconhecido.jpg'
 );
 
--- Criando a tabela Partida 
+-- Tabela Partida
 CREATE TABLE Partida (
-    id SERIAL PRIMARY KEY,
-    data DATE NOT NULL,
-    hora TIME NOT NULL,
-    timeAdversario VARCHAR(100) NOT NULL,
-    campeonato VARCHAR(50) NOT NULL,
-    foto VARCHAR(255) NOT NULL
+    Id SERIAL PRIMARY KEY,
+    Data DATE NOT NULL,
+    Hora TIME NOT NULL,
+    TimeAdversario VARCHAR(100) NOT NULL,
+    Campeonato VARCHAR(50) NOT NULL,
+    Foto VARCHAR(255) NOT NULL
 );
 
--- Criando a tabela PartidaJogadores
-CREATE TABLE PartidaJogadores (
-    partidaID INT NOT NULL,
-    jogadorID INT NOT NULL,
-    gols INT NOT NULL,
-    assistencias INT NOT NULL,
-    passes INT NOT NULL,
-    finalizacoes INT NOT NULL,
-    desarmes INT NOT NULL,
-    faltas INT NOT NULL,
-    FOREIGN KEY (partidaID) REFERENCES Partida(id) ON DELETE CASCADE,
-    FOREIGN KEY (jogadorID) REFERENCES Jogador(id) ON DELETE CASCADE
-);
 
--- Criando a tabela Usuario
+-- Tabela Usuario
 CREATE TABLE Usuario (
-    id SERIAL PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    senha VARCHAR(100) NOT NULL
+    Id SERIAL PRIMARY KEY,
+    Nome VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) NOT NULL UNIQUE,
+    Senha VARCHAR(100) NOT NULL
 );
 
--- Tabela de Administrador
+-- Tabela Administrador
 CREATE TABLE Administrador (
-    id SERIAL PRIMARY KEY,
-    status INT NOT NULL CHECK (status IN (1, 2, 3)),
-    usuarioId INT,
-    FOREIGN KEY (usuarioId) REFERENCES Usuario(id) ON DELETE CASCADE
+    Id SERIAL PRIMARY KEY,
+    Status INT NOT NULL CHECK (Status IN (1, 2, 3)),
+    UsuarioId INT NOT NULL,
+    FOREIGN KEY (UsuarioId) REFERENCES Usuario(Id) ON DELETE CASCADE
 );
 
--- Tabela de Técnico
+-- Tabela Tecnico
 CREATE TABLE Tecnico (
-    id SERIAL PRIMARY KEY,
-    contrato DATE NOT NULL,
-    usuarioId INT,
-    FOREIGN KEY (usuarioId) REFERENCES Usuario(id) ON DELETE CASCADE
+    Id SERIAL PRIMARY KEY,
+    Contrato DATE NOT NULL,
+    UsuarioId INT NOT NULL,
+    FOREIGN KEY (UsuarioId) REFERENCES Usuario(Id) ON DELETE CASCADE
 );
 
 -- Tabela EstatisticasJogador
 CREATE TABLE EstatisticasJogador (
     Id SERIAL PRIMARY KEY,
     JogadorId INT NOT NULL,
-    jogosDisputados INT DEFAULT 0,
-    golsMarcados INT DEFAULT 0,
-    assistencias INT DEFAULT 0,
-    finalizacoes INT DEFAULT 0,
-    passes INT DEFAULT 0,
-    desarmes INT DEFAULT 0,
-    faltasCometidas INT DEFAULT 0,
-    cartoesAmarelos INT DEFAULT 0,
-    cartoesVermelhos INT DEFAULT 0,
+    JogosDisputados INT DEFAULT 0,
+    GolsMarcados INT DEFAULT 0,
+    Assistencias INT DEFAULT 0,
+    Finalizacoes INT DEFAULT 0,
+    Passes INT DEFAULT 0,
+    Desarmes INT DEFAULT 0,
+    FaltasCometidas INT DEFAULT 0,
+    CartoesAmarelos INT DEFAULT 0,
+    CartoesVermelhos INT DEFAULT 0,
     FOREIGN KEY (JogadorId) REFERENCES Jogador(Id) ON DELETE CASCADE
 );
-=======
--- Criando a tabela Jogador 
-CREATE TABLE JOGADOR (
-	ID SERIAL PRIMARY KEY,
-	NOME VARCHAR(100) NOT NULL,
-	pernaBoa varchar(10) NOT NULL
-	check(pernaBoa IN ('esquerda', 'direita')),
-	posicao VARCHAR(50) NOT NULL,
-	altura DECIMAL(5,2) NOT NULL,
-	peso DECIMAL(5,2) NOT NULL, 
-    contrato DATE NOT NULL, 
-    nacionalidade VARCHAR(50) NOT NULL, 
-    dataNascimento DATE NOT NULL 
-);
-
-SELECT * FROM JOGADOR
-
--- Criando a tabela Partida 
-CREATE TABLE Partida ( 
-    id serial PRIMARY KEY, 
-    data DATE NOT NULL, 
-    hora TIME NOT NULL, 
-    timeAdversario VARCHAR(100) NOT NULL, 
-    local VARCHAR(100) NOT NULL 
-); 
-
--- Criando a tabela PartidaJogadores 
-CREATE TABLE PartidaJogadores ( 
-    partidaID INT NOT NULL, 
-    jogadorID INT NOT NULL, 
-    gols INT NOT NULL, 
-    --PRIMARY KEY (partidaID, jogadorID), 
-    FOREIGN KEY (partidaID) REFERENCES Partida(id) ON DELETE cascade, 
-    FOREIGN KEY (jogadorID) REFERENCES Jogador(id) ON DELETE cascade 
-); 
-
---Usuario
-CREATE TABLE usuario (
-  	id serial PRIMARY KEY,
-  	nome varchar(100) NOT NULL,
-  	email VARCHAR(100) NOT NULL UNIQUE,
-    senha VARCHAR(100) NOT NULL
-  );
-
-  --UsuarioAdmin
-  CREATE TABLE UsuarioAdmin (
-      usuarioID serial PRIMARY KEY,
-      FOREIGN KEY (usuarioID) REFERENCES Usuario(id) ON DELETE cascade
-  );
- 
-
--- Criando a tabela UsuarioComum 
-CREATE TABLE usuariocomum ( 
-    usuarioid INT PRIMARY KEY, 
-    FOREIGN KEY (usuarioid) REFERENCES usuario(id) ON DELETE cascade
-); 
-
-DROP TABLE usuariocomum cascade
-
-SELECT * FROM UsuarioComum
->>>>>>> 8d1a811845ebbdb5c87c677cfe98c927da441271

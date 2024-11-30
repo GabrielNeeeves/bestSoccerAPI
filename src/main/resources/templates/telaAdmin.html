@@ -12,27 +12,43 @@
   <button class="btn btn-success m-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
     ☰ Menu
   </button>
-
-  <div class="offcanvas offcanvas-start bg-success text-white" tabindex="-1" id="sidebar">
+  
+  <div class="offcanvas offcanvas-start text-white" style="background-color: #11C770;" tabindex="-1" id="sidebar">
     <div class="offcanvas-header">
-      <img src="/image/logo.png" alt="Logo" class="offcanvas-title"> 
+      <div class="d-flex align-items-center">
+        <img src="/image/logo.png" alt="Logo" class="offcanvas-title"> 
+      </div>
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-      <a href="#pagina-principal" class="menu-item nav-link text-white" data-section="pagina-principal">
-        <i class="fas fa-home"></i> Página Principal
-      </a>
-      <a href="#jogadores" class="menu-item nav-link text-white" data-section="jogadores">
-        <i class="fas fa-users"></i> Jogadores
-      </a>
-      <a href="#jogos" class="menu-item nav-link text-white" data-section="jogos">
-        <i class="fas fa-calendar-alt"></i> Jogos
-      </a>
-      <a href="#tecnicos" class="menu-item nav-link text-white" data-section="tecnicos">
-        <i class="fas fa-chalkboard-teacher"></i> Técnicos
-      </a>
+      <nav class="nav flex-column">
+        <a href="#pagina-principal" class="menu-item nav-link text-white fw-bold" data-section="pagina-principal">
+          <i class="fas fa-home"></i> Página Principal
+        </a>
+        <a href="#jogadores" class="menu-item nav-link text-white fw-bold" data-section="jogadores">
+          <i class="fas fa-users"></i> Jogadores
+        </a>
+        <a href="#jogos" class="menu-item nav-link text-white fw-bold" data-section="jogos">
+          <i class="fas fa-calendar-alt"></i> Jogos
+        </a>
+        <a href="#tecnicos" class="menu-item nav-link text-white fw-bold" data-section="tecnicos">
+          <i class="fas fa-chalkboard-teacher"></i> Técnicos
+        </a>
+        <a href="#estatistica" class="menu-item nav-link text-white fw-bold" data-section="estatistica">
+          <i class="fa-solid fa-chart-gantt"></i> Estátisticas
+        </a>
+      </nav>
+      <div class="action-buttons">
+        <a href="http://localhost:8080/index" class="btn btn-light mb-2">Voltar para Tela Inicial</a>
+        <a id="logout-btn" class="logout-link">
+          <i class="fas fa-sign-out-alt me-2"></i> Sair
+        </a>
+      </div>
     </div>
   </div>
+  
+  
+   
 
   <div class="content">
     <section id="pagina-principal" class="mb-5 section-content">
@@ -52,7 +68,9 @@
     <section id="jogos" class="mb-5 section-content" style="display: none;">
       <h2 class="section-title">Gerenciar Jogos</h2>
       <div class="d-flex justify-content-end mb-3">
-        <button class="btn btn-success btn-action"><i class="fas fa-plus"></i> Cadastrar</button>
+        <a class="btn btn-success btn-action" href="http://localhost:8080/partidas/cadastrar">
+          <i class="fas fa-plus"></i> Cadastrar
+        </a>
       </div>
       <div id="cards-jogos" class="row">
       </div>
@@ -61,7 +79,17 @@
     <section id="tecnicos" class="mb-5 section-content" style="display: none;">
       <h2 class="section-title">Gerenciar Técnicos</h2>
       <div class="d-flex justify-content-end mb-3">
-        <button class="btn btn-success btn-action"><i class="fas fa-plus"></i> Cadastrar Técnico</button>
+        <a class="btn btn-success btn-action" href="http://localhost:8080/tecnico/cadastrar">
+          <i class="fas fa-plus"></i> Cadastrar Técnico
+        </a>
+      </div>
+    </section>
+
+    <section id="estatistica" class="mb-5 section-content" style="display: none;">
+      <h2 class="section-title">Gerenciar Jogadores</h2>
+      <div class="d-flex justify-content-end mb-3">
+      </div>
+      <div id="cards-jogadores-estatistica" class="row">
       </div>
     </section>
   </div>

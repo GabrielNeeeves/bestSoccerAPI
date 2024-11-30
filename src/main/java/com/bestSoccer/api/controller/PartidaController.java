@@ -1,17 +1,11 @@
 package com.bestSoccer.api.controller;
 
-<<<<<<< HEAD
 import com.bestSoccer.api.model.PartidaView;
 import com.bestSoccer.api.repository.PartidaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-=======
-import com.bestSoccer.api.model.DTO.PartidaDTO;
-import com.bestSoccer.api.model.PartidaModel;
-import com.bestSoccer.api.repository.PartidaRepository;
 import com.bestSoccer.api.service.PartidaService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
->>>>>>> 8d1a811845ebbdb5c87c677cfe98c927da441271
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,53 +17,60 @@ public class PartidaController {
 
     @Autowired
     private PartidaRepository partidaRepository;
+    
+    @Autowired
+    private PartidaService partidaService;
 
-<<<<<<< HEAD
     @GetMapping
     public ResponseEntity<List<PartidaView>> getPartida() {
         List<PartidaView> partidas = partidaRepository.findAllPartida(); 
         return ResponseEntity.ok(partidas);
     }
 
-    }
-
-=======
-    @Autowired
-    private PartidaService partidaService;
-
-    //GET
-    @GetMapping
-    public ResponseEntity<List<PartidaModel>> getPartida() {
-        return ResponseEntity.ok(partidaRepository.findAll());
-    }
-
-    //POST
-    @PostMapping()
-    public ResponseEntity<String> postPartida(@RequestBody PartidaDTO partidaDTO) {
+        @PostMapping("/cadastrar")
+    public ResponseEntity<String> postJogo(@RequestBody PartidaView partidaView) {
         try {
-            partidaRepository.cadPartida(partidaDTO.getData(), partidaDTO.getHora(), partidaDTO.getTimeadv(), partidaDTO.getLocal());
-            return new ResponseEntity<>("Partida Cadastrado", HttpStatus.CREATED);
-        } catch(Exception e) {
-            return new ResponseEntity<>("Erro ao cadastrar: "+e.getMessage(), HttpStatus.BAD_REQUEST);
+            partidaRepository.cadPartida(
+                partidaView.getData(),
+                partidaView.getHora(),
+                partidaView.getTimeadversario(),
+                partidaView.getCampeonato(),
+                partidaView.getFoto()
+            );
+            return new ResponseEntity<>("Jogo Cadastrado com Sucesso", HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erro ao cadastrar o jogador: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    //DELETE BY ID
+    @GetMapping("/{id}")
+    public ResponseEntity<PartidaView> getPartidaById(@PathVariable Long id) {
+        PartidaView partida = partidaService.selectPorId(id);
+        return ResponseEntity.ok(partida);
+    }
+
     @DeleteMapping("/{id}")
-    public void delPartida(@PathVariable Long id) {
-        partidaRepository.deleteById(id);
-    }
-
-    //PUT BY ID
-    @PutMapping("/{id}")
-    public ResponseEntity<PartidaModel> updatePartida(@PathVariable Long id, @RequestBody PartidaModel novaPartida) {
+    public ResponseEntity<String> deletePartidaById(@PathVariable Long id) {
         try {
-            PartidaModel nvPartida = partidaService.updatePorId(id, novaPartida);
-            return ResponseEntity.ok(novaPartida);
-        } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            partidaService.deletarPorId(id);
+            return new ResponseEntity<>("Partida deletada com sucesso", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erro ao deletar o partida: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-}
->>>>>>> 8d1a811845ebbdb5c87c677cfe98c927da441271
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updatePartidaById(@PathVariable Long id, @RequestBody PartidaView partidaAtualizado) {
+        try {
+            partidaService.atualizarPorId(id, partidaAtualizado);
+            return new ResponseEntity<>("Partida atualizado com sucesso", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erro ao atualizar o jogador: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    }
+

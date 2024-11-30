@@ -1,7 +1,6 @@
 package com.bestSoccer.api.repository;
 
 import com.bestSoccer.api.model.JogadorModel;
-<<<<<<< HEAD
 import com.bestSoccer.api.model.JogadorView;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -49,28 +48,4 @@ public interface JogadorRepository extends JpaRepository<JogadorModel, Long> {
             @Param("altura") BigDecimal altura, @Param("peso") BigDecimal peso, @Param("contrato") LocalDate contrato,
             @Param("nacionalidade") String nacionalidade, @Param("datanascimento") LocalDate datanascimento,
             @Param("foto") String foto);
-
-=======
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.query.Procedure;
-import org.springframework.data.repository.query.Param;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-
-public interface JogadorRepository extends JpaRepository<JogadorModel, Long> {
-
-    //criar Jogador pela Procedure 'sp_cadjogador'
-    @Procedure(procedureName = "sp_cadjogador")
-    void cadJogador(
-            @Param("nome") String nome,
-            @Param("pernaboa") String pernaBoa,
-            @Param("posicao") String posicao,
-            @Param("altura") BigDecimal altura,
-            @Param("peso") BigDecimal peso,
-            @Param("contr") Date contrato,
-            @Param("nac") String nacionalidade,
-            @Param("datanasc") Date dataNascimento
-    );
->>>>>>> 8d1a811845ebbdb5c87c677cfe98c927da441271
 }

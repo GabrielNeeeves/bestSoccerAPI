@@ -40,4 +40,14 @@ public class HomeController {
     public String cadastrarJogadorPage() {
         return "telaCadastroJogador";
     }
+
+    @GetMapping("/partidas/cadastrar")
+    public String cadastrarPartidaPage() {
+        return "telaCadastroPartida";
+    }
+
+    @GetMapping("/tecnico/cadastrar")
+    public String cadastrarTecnicoPage() {
+        return "telaCadastroTecnico";
+    }
 }

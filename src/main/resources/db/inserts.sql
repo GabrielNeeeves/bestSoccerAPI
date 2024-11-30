@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 -- Inserir jogador sem foto, foto padrão será usada
 CALL sp_cadJogador('Carlos Silva', 'direita', 'Atacante', 1.80, 75.5, '2025-12-31', 'Brasileiro', '1998-05-14');
 CALL sp_cadJogador('Miguel Santos', 'esquerda', 'Meio-Campista', 1.75, 68.3, '2024-06-30', 'Português', '2000-03-21');
@@ -17,14 +16,6 @@ CALL sp_cadPartida('2025-01-20', '17:30', 'Manchester City', 'Campeonato Paulist
 CALL sp_cadPartida('2025-02-02', '15:00', 'Liverpool', 'Copa do Brasil', '/image/logoLiverpool.png');
 CALL sp_cadPartida('2025-02-15', '21:00', 'Real Madrid', 'Liga dos Campeões', '/image/logoReal.png');
 
--- Inserts para a procedure sp_cadPartidaJogador
-CALL sp_cadPartidaJogador(1, 1, 1, 2, 25, 4, 3, 2);
-CALL sp_cadPartidaJogador(1, 2, 0, 1, 30, 2, 5, 1);
-CALL sp_cadPartidaJogador(1, 3, 0, 0, 22, 0, 7, 3);
-CALL sp_cadPartidaJogador(2, 4, 1, 1, 28, 3, 2, 2);
-CALL sp_cadPartidaJogador(2, 5, 0, 0, 35, 1, 3, 4);
-CALL sp_cadPartidaJogador(3, 6, 2, 3, 24, 5, 1, 1);
-CALL sp_cadPartidaJogador(3, 7, 1, 2, 27, 3, 4, 2);
 
 -- Inserts para a procedure sp_cadUsuario
 CALL sp_cadUsuario('Lucas Oliveira', 'lucas@example.com', 'senha123');
@@ -63,19 +54,4 @@ CALL sp_cadEstatisticaJogador(6, 25, 20, 8, 45, 50, 18, 3, 2, 0);
 -- Inserir estatísticas para o jogador com id 7
 CALL sp_cadEstatisticaJogador(7, 30, 25, 12, 40, 55, 20, 4, 4, 0);
 
-=======
-SELECT * FROM v_jogador
-SELECT * FROM v_partida
-SELECT * FROM v_partidajogadores vp 
-
-CALL sp_cadJogador('José', 'direita', 'atacante', 1.77, 67.00, '2025-12-01', 'brasileiro', '2005-7-13') 
-
-CALL sp_cadpartida('2024-10-6', '19:30', 'FAS', 'Estádio Roxo') 
-
---partidaId, jogadorId, #gols
-CALL sp_cadpartidajogadores(1, 1, 2) 
-CALL sp_cadpartidajogadores(1, 2, 1) 
-
-CALL sp_cadpartidajogadores(2, 1, 0) 
->>>>>>> 8d1a811845ebbdb5c87c677cfe98c927da441271
 
