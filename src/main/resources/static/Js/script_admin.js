@@ -24,32 +24,49 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function carregaNome() {
     const userSection = document.getElementById("pagina-principal");
-    const nomeUsuario = localStorage.getItem("nomeUsuario");
-
+    const nomeUsuario = localStorage.getItem("nomeUsuario") || "Administrador";
+  
     const nomeAdmin = `
-      <h1 class="mb-4 section-title">Bem-vindo, ${nomeUsuario}</h1>
-      <p class="mb-5">Use o menu para gerenciar jogadores, jogos e técnicos.</p>
-      <div class="row text-center mb-4">
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Total de Jogadores</h5>
-              <p class="card-text display-4">50</p>
+      <div class="welcome-section">
+        <header class="header py-5 text-center text-light">
+          <h1 class="display-3 fw-bold">Bem-vindo, <span class="highlight">${nomeUsuario}</span>!</h1>
+          <p class="lead mt-3">Acompanhe e gerencie seu time de forma prática e eficiente.</p>
+        </header>
+        <div class="container py-5">
+          <div class="row text-center g-4">
+            <div class="col-md-4">
+              <div class="card shadow-lg card-hover">
+                <div class="card-body">
+                  <h5 class="card-title text-success">Total de Jogadores</h5>
+                  <p class="card-text display-4">50</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Próximos Jogos</h5>
-              <p class="card-text display-4">8</p>
+            <div class="col-md-4">
+              <div class="card shadow-lg card-hover">
+                <div class="card-body">
+                  <h5 class="card-title text-success">Próximos Jogos</h5>
+                  <p class="card-text display-4">8</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card shadow-lg card-hover">
+                <div class="card-body">
+                  <h5 class="card-title text-success">Técnicos Registrados</h5>
+                  <p class="card-text display-4">12</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     `;
+  
     userSection.innerHTML = nomeAdmin;
   }
+  
+  
 
   function fetchJogadores() {
     const apiUrlJogadores = 'http://localhost:8080/jogadores';

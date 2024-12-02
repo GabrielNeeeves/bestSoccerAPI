@@ -2,6 +2,41 @@ body {
   font-family: Arial, sans-serif;
 }
 
+/* Header estilizado */
+.header {
+  background: linear-gradient(135deg, #11C770, #0d805b);
+  color: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.header .highlight {
+  color: #ffffff; /* Destaque em dourado */
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.btn-interact {
+  border: 2px solid #FFD700;
+  transition: all 0.3s ease;
+}
+
+.btn-interact:hover {
+  background: #FFD700;
+  color: #0d805b;
+  transform: scale(1.1);
+}
+
+/* Interatividade nos cartões */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+
 .offcanvas {
   width: 280px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);

@@ -75,4 +75,10 @@ public class JogadorController {
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/total-jogadores")
+    public ResponseEntity<Long> getTotalJogadores() {
+        long total = jogadorRepository.count();
+        return ResponseEntity.ok(total);
+    }
 }

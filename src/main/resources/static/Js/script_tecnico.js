@@ -192,8 +192,81 @@ window.mostrarModal = function(id) {
         .catch(error => console.error("Erro ao buscar informações do jogador:", error));
 }
 
+function fetchJogos() {
+  const apiUrlPartidas = 'http://localhost:8080/partidas';
+  fetch(apiUrlPartidas)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Erro na API: ${response.statusText}`);
+      }
+      return response.json();
+    })
+    .then(partidas => {
+      const carouselItemsContainer = document.getElementById("cards-jogos");
+      carouselItemsContainer.innerHTML = '';
+
+      let currentRow;
+      let cardCount = 0;
+
+      partidas.forEach((partida, index) => {
+        if (cardCount % 4 === 0) {
+          currentRow = document.createElement('div');
+          currentRow.className = 'row g-3 justify-content-center';
+          carouselItemsContainer.appendChild(currentRow);
+        }
+
+        const jogoCard = `
+        <div class="col-3 d-flex align-items-stretch justify-content-center" style="max-width: 300px;">
+          <div class="card mx-2 shadow-lg" style="width: 100%; height: auto;">
+            <div class="bg-success text-white d-flex justify-content-between px-3 py-2">
+              <span>${new Date(partida.data).toLocaleDateString('pt-BR')}</span>
+              <span>${partida.hora}</span>
+            </div>
+            <div class="card-body d-flex flex-column align-items-center justify-content-between bg-light" style="padding-bottom: 10px;">
+              <img src="http://localhost:8080/${partida.foto}" class="card-img-top" style="width: 200px; height: 200px; object-fit: contain;" alt="Foto do jogo ${partida.id}">
+              <h5 class="card-title text-center mt-2">${partida.timeadversario}</h5>
+            </div>
+            <div class="bg-dark text-white text-center py-2 w-100" style="font-size: 0.9rem;">
+              ${partida.campeonato}
+            </div>
+            <div class="d-flex justify-content-around py-2">
+            </div>
+          </div>
+        </div>
+      `;
+        currentRow.innerHTML += jogoCard;
+        cardCount++;
+      });
+    })
+    .catch(error => {
+      console.error("Erro ao carregar os jogos:", error);
+    });
+}
+
+document.getElementById("logout-btn").addEventListener("click", function (e) {
+  e.preventDefault();
+  Swal.fire({
+    title: 'Tem certeza?',
+    text: "Deseja finalizar a seção?!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#11C770',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Sim, sair!',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log('Logout confirmado');
+      localStorage.removeItem("nomeUsuario");
+      localStorage.removeItem("tipoUsuario");
+      window.location.href = 'http://localhost:8080/usuario/login';
+    }
+  });
+});
+
 
   fetchJogadores();
+  fetchJogos();
   carregaMenu();
   carregaNome();
 

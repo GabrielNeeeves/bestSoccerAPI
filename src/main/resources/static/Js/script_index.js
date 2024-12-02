@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } else if (tipoUsuario === "tecnico") {
             menuItems = `
                 <li>
-                    <a class="dropdown-item" href="http://localhost:8080/gerenciarTecnico">
+                    <a class="dropdown-item" href="http://localhost:8080/usuario/tecnico">
                         <i class="bi bi-gear-fill me-2"></i> Gerenciar Time
                     </a>
                 </li>
