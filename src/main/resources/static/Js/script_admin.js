@@ -1,27 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-  document.getElementById("logout-btn").addEventListener("click", function (e) {
-    e.preventDefault();
-    Swal.fire({
-        title: 'Tem certeza?',
-        text: "Deseja finalizar a seção?!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#11C770',
-        cancelButtonColor: '#d33',   
-        confirmButtonText: 'Sim, sair!',
-        cancelButtonText: 'Cancelar'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            console.log('Logout confirmado');
-            localStorage.removeItem("nomeUsuario");
-            localStorage.removeItem("tipoUsuario");
-            window.location.href = 'http://localhost:8080/usuario/login';
-        }
-    });
-});
-
-
   function carregaMenu() {
     document.querySelectorAll('.menu-item').forEach(link => {
       link.addEventListener('click', event => {
@@ -85,20 +63,20 @@ document.addEventListener('DOMContentLoaded', function () {
       .then(jogadores => {
         const carouselItemsContainer = document.getElementById("cards-jogadores");
         carouselItemsContainer.innerHTML = '';
-  
+
         let currentRow;
         let cardCount = 0;
-  
+
         jogadores.forEach((jogador, index) => {
           if (cardCount % 5 === 0) {
             currentRow = document.createElement('div');
             currentRow.className = 'row g-3 justify-content-center';
             carouselItemsContainer.appendChild(currentRow);
           }
-  
+
           const col = document.createElement('div');
           col.className = 'col-md-2 d-flex align-items-stretch justify-content-center';
-  
+
           const card = `
             <div class="card mx-2" style="width: 100%; height: 100%; border-radius: 10px;">
               <div class="card-body d-flex flex-column align-items-center justify-content-between">
@@ -117,10 +95,10 @@ document.addEventListener('DOMContentLoaded', function () {
               </div>
             </div>
           `;
-  
+
           col.innerHTML = card;
           currentRow.appendChild(col);
-  
+
           cardCount++;
         });
       })
@@ -129,209 +107,9 @@ document.addEventListener('DOMContentLoaded', function () {
       });
   }
 
-  function fetchJogadoresEstatistica() {
-    const apiUrlJogadores = 'http://localhost:8080/jogadores';
-    fetch(apiUrlJogadores)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`Erro na API: ${response.statusText}`);
-        }
-        return response.json();
-      })
-      .then(jogadores => {
-        const carouselItemsContainer = document.getElementById("cards-jogadores-estatistica");
-        carouselItemsContainer.innerHTML = '';
-  
-        let currentRow;
-        let cardCount = 0;
-  
-        jogadores.forEach((jogador, index) => {
-          if (cardCount % 5 === 0) {
-            currentRow = document.createElement('div');
-            currentRow.className = 'row g-3 justify-content-center';
-            carouselItemsContainer.appendChild(currentRow);
-          }
-  
-          const col = document.createElement('div');
-          col.className = 'col-md-2 d-flex align-items-stretch justify-content-center';
-  
-          const card = `
-            <div class="card mx-2" style="width: 100%; height: 100%; border-radius: 10px;">
-              <div class="card-body d-flex flex-column align-items-center justify-content-between">
-                <div class="d-flex justify-content-between w-100">
-                  <button class="btn btn-success btn-sm" onclick="editarJogador(${jogador.id})">Inserir</button>
-                  <button class="btn btn-danger btn-sm" onclick="excluirJogador(${jogador.id})">Editar</button>
-                </div>
-                <img src="http://localhost:8080/${jogador.foto}" class="card-img-top" style="object-fit: contain; height: 150px;" alt="Foto do Jogador">
-                <h5 class="card-title fs-5 text-center" style="color: #11C770; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                  ${jogador.nome}
-                </h5>
-                <p class="card-text fs-6 mt-2 text-center">
-                  <span class="fw-bold">Posição:</span> ${jogador.posicao}
-                </p>
-                <button class="btn btn-outline-success mt-3" style="width: 100%;">Ver mais</button>
-              </div>
-            </div>
-          `;
-  
-          col.innerHTML = card;
-          currentRow.appendChild(col);
-  
-          cardCount++;
-        });
-      })
-      .catch(error => {
-        console.error("Erro ao carregar os jogadores:", error);
-      });
-  }
-
-  function fetchJogos() {
-    const apiUrlPartidas = 'http://localhost:8080/partidas';
-    fetch(apiUrlPartidas)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`Erro na API: ${response.statusText}`);
-        }
-        return response.json();
-      })
-      .then(partidas => {
-        const carouselItemsContainer = document.getElementById("cards-jogos");
-        carouselItemsContainer.innerHTML = '';
-  
-        let currentRow;
-        let cardCount = 0;
-  
-        partidas.forEach((partida, index) => {
-          if (cardCount % 4 === 0) {
-            currentRow = document.createElement('div');
-            currentRow.className = 'row g-3 justify-content-center'; 
-            carouselItemsContainer.appendChild(currentRow);
-          }
-  
-          const jogoCard = `
-          <div class="col-3 d-flex align-items-stretch justify-content-center" style="max-width: 300px;">
-            <div class="card mx-2 shadow-lg" style="width: 100%; height: auto;">
-              <div class="bg-success text-white d-flex justify-content-between px-3 py-2">
-                <span>${new Date(partida.data).toLocaleDateString('pt-BR')}</span>
-                <span>${partida.hora}</span>
-              </div>
-              <div class="card-body d-flex flex-column align-items-center justify-content-between bg-light" style="padding-bottom: 10px;">
-                <img src="http://localhost:8080/${partida.foto}" class="card-img-top" style="width: 200px; height: 200px; object-fit: contain;" alt="Foto do jogo ${partida.id}">
-                <h5 class="card-title text-center mt-2">${partida.timeadversario}</h5>
-              </div>
-              <div class="bg-dark text-white text-center py-2 w-100" style="font-size: 0.9rem;">
-                ${partida.campeonato}
-              </div>
-              <div class="d-flex justify-content-around py-2">
-                <button class="btn btn-success btn-sm" style="font-size: 0.8rem;" onclick="editarJogo(${partida.id})">
-                  <i class="bi bi-pencil"></i> Editar
-                </button>
-                <button class="btn btn-danger btn-sm" style="font-size: 0.8rem;" onclick="excluirJogos(${partida.id})">
-                  <i class="bi bi-trash"></i> Excluir
-                </button>
-              </div>
-            </div>
-          </div>
-        `;
-        
-  
-          currentRow.innerHTML += jogoCard;
-  
-          cardCount++;
-        });
-      })
-      .catch(error => {
-        console.error("Erro ao carregar os jogos:", error);
-      });
-  }
-
-
-
-  window.excluirJogador = function(id) {
-    Swal.fire({
-      title: 'Tem certeza?',
-      text: "Essa ação não pode ser desfeita!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#11C770', // Cor do botão de confirmação
-      cancelButtonColor: '#d33',    // Cor do botão de cancelar
-      confirmButtonText: 'Sim, excluir!',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const apiUrlExcluir = `http://localhost:8080/jogadores/${id}`;
-  
-        fetch(apiUrlExcluir, {
-          method: 'DELETE',
-        })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(`Erro ao excluir o jogador: ${response.statusText}`);
-            }
-            Swal.fire(
-              'Excluído!',
-              'O jogador foi removido com sucesso.',
-              'success'
-            );
-  
-            // Atualizar a lista de jogadores
-            fetchJogadores();
-          })
-          .catch(error => {
-            console.error("Erro ao excluir o jogador:", error);
-            Swal.fire(
-              'Erro!',
-              'Não foi possível excluir o jogador. Tente novamente.',
-              'error'
-            );
-          });
-      }
-    });
-  } 
-
-  window.excluirJogos = function(id) {
-    Swal.fire({
-      title: 'Tem certeza?',
-      text: "Essa ação não pode ser desfeita!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#11C770', // Cor do botão de confirmação
-      cancelButtonColor: '#d33',    // Cor do botão de cancelar
-      confirmButtonText: 'Sim, excluir!',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const apiUrlExcluir = `http://localhost:8080/partidas/${id}`;
-  
-        fetch(apiUrlExcluir, {
-          method: 'DELETE',
-        })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(`Erro ao excluir o jogo: ${response.statusText}`);
-            }
-            Swal.fire(
-              'Excluído!',
-              'O jogo foi removido com sucesso.',
-              'success'
-            );
-            fetchJogos();
-          })
-          .catch(error => {
-            console.error("Erro ao excluir o jogo:", error);
-            Swal.fire(
-              'Erro!',
-              'Não foi possível excluir o jogo. Tente novamente.',
-              'error'
-            );
-          });
-      }
-    });
-  } 
-  
   window.editarJogador = function (id) {
     const apiUrlJogador = `http://localhost:8080/jogadores/${id}`;
-  
+
     fetch(apiUrlJogador)
       .then(response => {
         if (!response.ok) {
@@ -407,14 +185,12 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
           </div>
         `;
-  
+
         document.body.appendChild(modalContainer);
-  
-        // Inicializa o modal
+
         const modal = new bootstrap.Modal(document.getElementById('editarJogadorModal'));
         modal.show();
-  
-        // Adiciona evento para salvar alterações
+
         document.getElementById('salvarAlteracoes').addEventListener('click', () => {
           const nome = formatarTexto(document.getElementById('nome').value.trim());
           const pernadominante = document.getElementById('pernaDominante').value.toLowerCase();
@@ -426,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function () {
           const datanascimento = formatarData(document.getElementById('dataNascimento').value);
           let foto = document.getElementById('foto').value.trim();
           if (!foto) foto = "image/jogadorDesconhecido.jpg";
-  
+
           const jogadorAtualizado = {
             nome,
             pernadominante,
@@ -438,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function () {
             datanascimento,
             foto
           };
-  
+
           const apiUrlUpdate = `http://localhost:8080/jogadores/${id}`;
           fetch(apiUrlUpdate, {
             method: "PUT",
@@ -470,19 +246,116 @@ document.addEventListener('DOMContentLoaded', function () {
       });
   };
 
+  window.excluirJogador = function (id) {
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: "Essa ação não pode ser desfeita!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#11C770',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, excluir!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const apiUrlExcluir = `http://localhost:8080/jogadores/${id}`;
+
+        fetch(apiUrlExcluir, {
+          method: 'DELETE',
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`Erro ao excluir o jogador: ${response.statusText}`);
+            }
+            Swal.fire(
+              'Excluído!',
+              'O jogador foi removido com sucesso.',
+              'success'
+            );
+            fetchJogadores();
+          })
+          .catch(error => {
+            console.error("Erro ao excluir o jogador:", error);
+            Swal.fire(
+              'Erro!',
+              'Não foi possível excluir o jogador. Tente novamente.',
+              'error'
+            );
+          });
+      }
+    });
+  }
+
+  function fetchJogos() {
+    const apiUrlPartidas = 'http://localhost:8080/partidas';
+    fetch(apiUrlPartidas)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Erro na API: ${response.statusText}`);
+        }
+        return response.json();
+      })
+      .then(partidas => {
+        const carouselItemsContainer = document.getElementById("cards-jogos");
+        carouselItemsContainer.innerHTML = '';
+
+        let currentRow;
+        let cardCount = 0;
+
+        partidas.forEach((partida, index) => {
+          if (cardCount % 4 === 0) {
+            currentRow = document.createElement('div');
+            currentRow.className = 'row g-3 justify-content-center';
+            carouselItemsContainer.appendChild(currentRow);
+          }
+
+          const jogoCard = `
+          <div class="col-3 d-flex align-items-stretch justify-content-center" style="max-width: 300px;">
+            <div class="card mx-2 shadow-lg" style="width: 100%; height: auto;">
+              <div class="bg-success text-white d-flex justify-content-between px-3 py-2">
+                <span>${new Date(partida.data).toLocaleDateString('pt-BR')}</span>
+                <span>${partida.hora}</span>
+              </div>
+              <div class="card-body d-flex flex-column align-items-center justify-content-between bg-light" style="padding-bottom: 10px;">
+                <img src="http://localhost:8080/${partida.foto}" class="card-img-top" style="width: 200px; height: 200px; object-fit: contain;" alt="Foto do jogo ${partida.id}">
+                <h5 class="card-title text-center mt-2">${partida.timeadversario}</h5>
+              </div>
+              <div class="bg-dark text-white text-center py-2 w-100" style="font-size: 0.9rem;">
+                ${partida.campeonato}
+              </div>
+              <div class="d-flex justify-content-around py-2">
+                <button class="btn btn-success btn-sm" style="font-size: 0.8rem;" onclick="editarJogo(${partida.id})">
+                  <i class="bi bi-pencil"></i> Editar
+                </button>
+                <button class="btn btn-danger btn-sm" style="font-size: 0.8rem;" onclick="excluirJogos(${partida.id})">
+                  <i class="bi bi-trash"></i> Excluir
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+          currentRow.innerHTML += jogoCard;
+          cardCount++;
+        });
+      })
+      .catch(error => {
+        console.error("Erro ao carregar os jogos:", error);
+      });
+  }
+
   window.editarJogo = function (id) {
     const apiUrlJogo = `http://localhost:8080/partidas/${id}`;
 
     fetch(apiUrlJogo)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Erro ao buscar o jogo: ${response.statusText}`);
-            }
-            return response.json();
-        })
-        .then(jogo => {
-            const modalContainer = document.createElement('div');
-            modalContainer.innerHTML = `
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Erro ao buscar o jogo: ${response.statusText}`);
+        }
+        return response.json();
+      })
+      .then(jogo => {
+        const modalContainer = document.createElement('div');
+        modalContainer.innerHTML = `
                 <div class="modal fade" id="editarJogoModal" tabindex="-1" aria-labelledby="editarJogoModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -523,64 +396,252 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
             `;
 
-            document.body.appendChild(modalContainer);
+        document.body.appendChild(modalContainer);
 
-            const modal = new bootstrap.Modal(document.getElementById('editarJogoModal'));
-            modal.show();
+        const modal = new bootstrap.Modal(document.getElementById('editarJogoModal'));
+        modal.show();
 
-            document.getElementById('salvarAlteracoesJogo').addEventListener('click', () => {
-                const timeadversario = formatarTexto(document.getElementById('timeadversario').value);
-                const campeonato = formatarTexto(document.getElementById('campeonato').value);
-                const data = formatarData(document.getElementById('data').value);
-                const hora = document.getElementById('hora').value;
-                const foto = document.getElementById('foto').value.trim() || 'image/jogoDesconhecido.jpg';
+        document.getElementById('salvarAlteracoesJogo').addEventListener('click', () => {
+          const timeadversario = formatarTexto(document.getElementById('timeadversario').value);
+          const campeonato = formatarTexto(document.getElementById('campeonato').value);
+          const data = formatarData(document.getElementById('data').value);
+          const hora = document.getElementById('hora').value;
+          const foto = document.getElementById('foto').value.trim() || 'image/jogoDesconhecido.jpg';
 
-                const jogoAtualizado = {
-                    timeadversario,
-                    campeonato,
-                    data,
-                    hora,
-                    foto
-                };
-
-                const apiUrlUpdate = `http://localhost:8080/partidas/${id}`;
-                fetch(apiUrlUpdate, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(jogoAtualizado)
-                })
-                    .then(response => response.text())
-                    .then(message => {
-                        if (message === "Partida atualizado com sucesso") {
-                            Swal.fire('Sucesso!', 'Jogo atualizado com sucesso!', 'success');
-                            modal.hide();
-                            fetchJogos(); 
-                        } else {
-                            Swal.fire('Erro!', message, 'error');
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Erro ao atualizar jogo:", error);
-                        Swal.fire('Erro!', 'Houve um problema ao salvar as alterações.', 'error');
-                    });
+          const jogoAtualizado = {
+            timeadversario,
+            campeonato,
+            data,
+            hora,
+            foto
+          };
+          const apiUrlUpdate = `http://localhost:8080/partidas/${id}`;
+          fetch(apiUrlUpdate, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(jogoAtualizado)
+          })
+            .then(response => response.text())
+            .then(message => {
+              if (message === "Partida atualizado com sucesso") {
+                Swal.fire('Sucesso!', 'Jogo atualizado com sucesso!', 'success');
+                modal.hide();
+                fetchJogos();
+              } else {
+                Swal.fire('Erro!', message, 'error');
+              }
+            })
+            .catch(error => {
+              console.error("Erro ao atualizar jogo:", error);
+              Swal.fire('Erro!', 'Houve um problema ao salvar as alterações.', 'error');
             });
+        });
+        document.getElementById('editarJogoModal').addEventListener('hidden.bs.modal', () => {
+          modalContainer.remove();
+        });
+      })
+      .catch(error => {
+        console.error("Erro ao carregar jogo:", error);
+      });
+  };
 
-            // Remove o modal do DOM após ser fechado
-            document.getElementById('editarJogoModal').addEventListener('hidden.bs.modal', () => {
-                modalContainer.remove();
+  window.excluirJogos = function (id) {
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: "Essa ação não pode ser desfeita!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#11C770',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, excluir!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const apiUrlExcluir = `http://localhost:8080/partidas/${id}`;
+
+        fetch(apiUrlExcluir, {
+          method: 'DELETE',
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`Erro ao excluir o jogo: ${response.statusText}`);
+            }
+            Swal.fire(
+              'Excluído!',
+              'O jogo foi removido com sucesso.',
+              'success'
+            );
+            fetchJogos();
+          })
+          .catch(error => {
+            console.error("Erro ao excluir o jogo:", error);
+            Swal.fire(
+              'Erro!',
+              'Não foi possível excluir o jogo. Tente novamente.',
+              'error'
+            );
+          });
+      }
+    });
+  }
+
+  function fetchJogadoresEstatistica() {
+    const apiUrlJogadores = `http://localhost:8080/jogadores?timestamp=${Date.now()}`;
+    fetch(apiUrlJogadores)
+        .then(response => {
+            if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
+            return response.json();
+        })
+        .then(jogadores => {
+            const carouselItemsContainer = document.getElementById("cards-jogadores-estatistica");
+            carouselItemsContainer.innerHTML = '';
+
+            jogadores.forEach((jogador, index) => {
+                if (index % 5 === 0) {
+                    const row = document.createElement('div');
+                    row.className = 'row g-3 justify-content-center';
+                    carouselItemsContainer.appendChild(row);
+                }
+
+                const apiUrlEstatisticas = `http://localhost:8080/estatisticas-jogador/${jogador.id}`;
+                fetch(apiUrlEstatisticas)
+                    .then(response => {
+                        // Verifica se a resposta é válida
+                        if (!response.ok) {
+                            console.warn(`Estatísticas não encontradas para jogador ${jogador.id}`);
+                            return null; // Retorna `null` se não encontrar estatísticas
+                        }
+                        return response.json();
+                    })
+                    .then(estatisticas => {
+                        const possuiEstatisticas = estatisticas && Object.keys(estatisticas).length > 0;
+
+                        const cardHtml = `
+                            <div class="col-md-2 d-flex align-items-stretch justify-content-center">
+                                <div class="card mx-2" style="width: 100%; height: 100%; border-radius: 10px;">
+                                    <div class="card-body d-flex flex-column align-items-center justify-content-between">
+                                        <div class="d-flex justify-content-between w-100">
+                                            <button class="btn btn-${possuiEstatisticas ? 'warning' : 'success'} btn-sm" onclick="abrirModalEstatisticas(${jogador.id})">
+                                                ${possuiEstatisticas ? 'Editar Estatísticas' : 'Inserir Estatísticas'}
+                                            </button>
+                                        </div>
+                                        <img src="http://localhost:8080/${jogador.foto}" class="card-img-top" style="object-fit: contain; height: 150px;" alt="Foto do Jogador">
+                                        <h5 class="card-title fs-5 text-center" style="color: #11C770; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                            ${jogador.nome}
+                                        </h5>
+                                        <p class="card-text fs-6 mt-2 text-center">
+                                            <span class="fw-bold">Posição:</span> ${jogador.posicao}
+                                        </p>
+                                        <button class="btn btn-outline-success mt-3" style="width: 100%;">Ver mais</button>
+                                    </div>
+                                </div>
+                            </div>`;
+
+                        carouselItemsContainer.lastChild.innerHTML += cardHtml;
+                    })
+                    .catch(error => console.error(`Erro ao verificar estatísticas para o jogador ${jogador.id}:`, error));
             });
         })
-        .catch(error => {
-            console.error("Erro ao carregar jogo:", error);
-        });
+        .catch(error => console.error("Erro ao carregar os jogadores:", error));
+}
+
+  
+window.abrirModalEstatisticas = function (id) {
+  const apiUrlEstatisticas = `http://localhost:8080/estatisticas-jogador/${id}`;
+  fetch(apiUrlEstatisticas)
+      .then(response => {
+          if (!response.ok && response.status !== 404) throw new Error(`Erro ao buscar estatísticas: ${response.statusText}`);
+          return response.status === 404 ? {} : response.json(); // Se não encontrar, retorna um objeto vazio
+      })
+      .then(estatisticas => {
+          const {
+              jogosdisputados = 0,
+              golsmarcados = 0,
+              assistencias = 0,
+              finalizacoes = 0,
+              passes = 0,
+              desarmes = 0,
+              faltascometidas = 0,
+              cartoesamarelos = 0,
+              cartoesvermelhos = 0
+          } = estatisticas;
+
+          const modalContainer = document.createElement('div');
+          modalContainer.innerHTML = `
+              <div class="modal fade" id="estatisticasModal" tabindex="-1" aria-labelledby="estatisticasModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-lg">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h5 class="modal-title" id="estatisticasModalLabel">Estatísticas do Jogador</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                              <form id="estatisticasForm">
+                                  <div class="row">
+                                      ${[
+                                          { label: 'Jogos Jogados', id: 'jogosJogador', value: jogosdisputados },
+                                          { label: 'Gols', id: 'golsJogador', value: golsmarcados },
+                                          { label: 'Assistências', id: 'assistenciasJogador', value: assistencias },
+                                          { label: 'Finalizações', id: 'finalizacoesJogador', value: finalizacoes },
+                                          { label: 'Passes', id: 'passesJogador', value: passes },
+                                          { label: 'Desarmes', id: 'desarmesJogador', value: desarmes },
+                                          { label: 'Faltas Cometidas', id: 'faltasJogador', value: faltascometidas },
+                                          { label: 'Cartões Amarelos', id: 'cartoesAmarelosJogador', value: cartoesamarelos },
+                                          { label: 'Cartões Vermelhos', id: 'cartoesVermelhosJogador', value: cartoesvermelhos }
+                                      ].map(field => `
+                                          <div class="col-md-6 mb-3">
+                                              <label for="${field.id}" class="form-label">${field.label}</label>
+                                              <input type="number" class="form-control" id="${field.id}" value="${field.value}">
+                                          </div>`).join('')}
+                                  </div>
+                              </form>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                              <button type="button" class="btn btn-success" id="salvarEstatisticas">Salvar</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>`;
+          document.body.appendChild(modalContainer);
+
+          const modal = new bootstrap.Modal(document.getElementById('estatisticasModal'));
+          modal.show();
+
+          document.getElementById('salvarEstatisticas').addEventListener('click', () => {
+              const estatisticasAtualizadas = Object.fromEntries(
+                  Array.from(document.querySelectorAll('#estatisticasForm input')).map(input => [input.id.replace('Jogador', ''), Number(input.value)])
+              );
+
+              const metodoHttp = estatisticas && Object.keys(estatisticas).length > 0 ? 'PUT' : 'POST';
+              fetch(`http://localhost:8080/estatisticas-jogador/${id}`, {
+                  method: metodoHttp,
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(estatisticasAtualizadas)
+              })
+                  .then(response => {
+                      if (!response.ok) throw new Error();
+                      return response.json();
+                  })
+                  .then(() => {
+                      Swal.fire('Sucesso!', 'Estatísticas salvas com sucesso!', 'success');
+                      modal.hide();
+                      fetchJogadoresEstatistica();
+                  })
+                  .catch(() => Swal.fire('Erro!', 'Falha ao salvar as estatísticas.', 'error'));
+          });
+
+          document.getElementById('estatisticasModal').addEventListener('hidden.bs.modal', () => modalContainer.remove());
+      })
+      .catch(error => console.error("Erro ao carregar estatísticas:", error));
 };
 
   
-  // Funções auxiliares:
+
   function formatarTexto(texto) {
     return texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
   }
-  
+
   function formatarData(data) {
     const partes = data.split("-");
     if (partes.length === 3) {
@@ -588,7 +649,28 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     return data;
   }
-  
+
+  document.getElementById("logout-btn").addEventListener("click", function (e) {
+    e.preventDefault();
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: "Deseja finalizar a seção?!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#11C770',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, sair!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log('Logout confirmado');
+        localStorage.removeItem("nomeUsuario");
+        localStorage.removeItem("tipoUsuario");
+        window.location.href = 'http://localhost:8080/usuario/login';
+      }
+    });
+  });
+
   carregaNome();
   carregaMenu();
   fetchJogadores();
