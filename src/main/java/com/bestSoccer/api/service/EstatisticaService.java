@@ -34,19 +34,19 @@ public class EstatisticaService {
     }
 
 
-    public void atualizarEstatisticas(Long id, EstatisticaView estatisticas) {
+    public void updateEstatisticasById(Long id, EstatisticaView estatisticas) {
         EstatisticaModel estatisticaModel = estatisticaRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Estatísticas não encontradas para o ID: " + id));
-    
-        estatisticas.setJogosdisputados(estatisticas.getJogosdisputados());
-        estatisticas.setGolsmarcados(estatisticas.getGolsmarcados());
-        estatisticas.setAssistencias(estatisticas.getAssistencias());
-        estatisticas.setFinalizacoes(estatisticas.getFinalizacoes());
-        estatisticas.setPasses(estatisticas.getPasses());
-        estatisticas.setDesarmes(estatisticas.getDesarmes());
-        estatisticas.setFaltascometidas(estatisticas.getFaltascometidas());
-        estatisticas.setCartoesamarelos(estatisticas.getCartoesamarelos());
-        estatisticas.setCartoesvermelhos(estatisticas.getCartoesvermelhos());
+
+        estatisticaModel.setJogosdisputados(estatisticas.getJogosdisputados());
+        estatisticaModel.setGolsmarcados(estatisticas.getGolsmarcados());
+        estatisticaModel.setAssistencias(estatisticas.getAssistencias());
+        estatisticaModel.setFinalizacoes(estatisticas.getFinalizacoes());
+        estatisticaModel.setPasses(estatisticas.getPasses());
+        estatisticaModel.setDesarmes(estatisticas.getDesarmes());
+        estatisticaModel.setFaltascometidas(estatisticas.getFaltascometidas());
+        estatisticaModel.setCartoesamarelos(estatisticas.getCartoesamarelos());
+        estatisticaModel.setCartoesvermelhos(estatisticas.getCartoesvermelhos());
     
         estatisticaRepository.save(estatisticaModel);
     }

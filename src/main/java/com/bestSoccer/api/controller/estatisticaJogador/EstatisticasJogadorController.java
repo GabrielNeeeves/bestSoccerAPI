@@ -57,7 +57,7 @@ public class EstatisticasJogadorController {
     @PutMapping("/{id}")
     public ResponseEntity<String> updateEstatisticas(@PathVariable Long id, @RequestBody EstatisticaView estatisticaView) {
             try {
-                estatisticaService.atualizarEstatisticas(id, estatisticaView);
+                estatisticaService.updateEstatisticasById(id, estatisticaView);
                 return new ResponseEntity<>("Estatísticas atualizadas com sucesso!", HttpStatus.OK);
             } catch (Exception e) {
                 return new ResponseEntity<>("Erro ao atualizar as estatísticas: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
