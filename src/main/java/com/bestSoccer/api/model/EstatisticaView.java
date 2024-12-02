@@ -18,14 +18,14 @@ public class EstatisticaView {
     private Long id;
 
     private Long jogadorid;
-    private Integer jogosdisputados;
-    private Integer golsmarcados;
-    private Integer assistencias;
-    private Integer finalizacoes;
-    private Integer passes;
-    private Integer desarmes;
-    private Integer faltascometidas;
-    private Integer cartoesamarelos;
-    private Integer cartoesvermelhos;
+    private int jogosdisputados;
+    private int golsmarcados;
+    private int assistencias;
+    private int finalizacoes;
+    private int passes;
+    private int desarmes;
+    private int faltascometidas;
+    private int cartoesamarelos;
+    private int cartoesvermelhos;
 
 }
