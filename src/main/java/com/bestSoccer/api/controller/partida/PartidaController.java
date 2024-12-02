@@ -1,7 +1,7 @@
-package com.bestSoccer.api.controller;
+package com.bestSoccer.api.controller.partida;
 
-import com.bestSoccer.api.model.PartidaView;
-import com.bestSoccer.api.repository.PartidaRepository;
+import com.bestSoccer.api.model.partida.PartidaView;
+import com.bestSoccer.api.repository.partida.PartidaRepository;
 import com.bestSoccer.api.service.PartidaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class PartidaController {
         return ResponseEntity.ok(partidas);
     }
 
-        @PostMapping("/cadastrar")
+    @PostMapping("/cadastrar")
     public ResponseEntity<String> postJogo(@RequestBody PartidaView partidaView) {
         try {
             partidaRepository.cadPartida(

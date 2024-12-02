@@ -1,7 +1,7 @@
-package com.bestSoccer.api.repository;
+package com.bestSoccer.api.repository.usuario;
 
-import com.bestSoccer.api.model.UsuarioModel;
-import com.bestSoccer.api.model.UsuarioView;
+import com.bestSoccer.api.model.usuario.UsuarioModel;
+import com.bestSoccer.api.model.usuario.UsuarioView;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

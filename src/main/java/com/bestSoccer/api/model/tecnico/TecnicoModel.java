@@ -1,7 +1,8 @@
-package com.bestSoccer.api.model;
+package com.bestSoccer.api.model.tecnico;
 
 import java.time.LocalDate;
 
+import com.bestSoccer.api.model.usuario.UsuarioModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter 
-public class TecnicoModel extends UsuarioModel{
+public class TecnicoModel extends UsuarioModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

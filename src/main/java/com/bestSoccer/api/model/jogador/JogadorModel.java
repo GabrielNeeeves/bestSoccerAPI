@@ -1,5 +1,6 @@
-package com.bestSoccer.api.model;
+package com.bestSoccer.api.model.jogador;
 
+import com.bestSoccer.api.model.estatistica.EstatisticaModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -49,5 +50,5 @@ public class JogadorModel {
     private String foto;
 
     @OneToOne(mappedBy = "jogador", cascade = CascadeType.ALL)
-    private EstatisticaModel  estatisticas;
+    private EstatisticaModel estatisticas;
 }

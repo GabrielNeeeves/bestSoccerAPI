@@ -3,9 +3,9 @@ package com.bestSoccer.api.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bestSoccer.api.model.EstatisticaModel;
-import com.bestSoccer.api.model.EstatisticaView;
-import com.bestSoccer.api.repository.EstatisticaRepository;
+import com.bestSoccer.api.model.estatistica.EstatisticaModel;
+import com.bestSoccer.api.model.estatistica.EstatisticaView;
+import com.bestSoccer.api.repository.estatistica.EstatisticaRepository;
 
 @Service
 public class EstatisticaService {
@@ -18,7 +18,7 @@ public class EstatisticaService {
         return estatisticaRepository.save(estatisticas);
     }
 
-    public void cadastrarEstatisticas(Long jogadorId, EstatisticaView estatisticas) {
+    public void cadastrarEstatisticas(int jogadorId, EstatisticaView estatisticas) {
         estatisticaRepository.cadEstatisticaJogador(
             jogadorId,
             estatisticas.getJogosdisputados(),

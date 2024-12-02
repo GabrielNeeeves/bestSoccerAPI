@@ -1,4 +1,4 @@
-package com.bestSoccer.api.model;
+package com.bestSoccer.api.model.partida;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

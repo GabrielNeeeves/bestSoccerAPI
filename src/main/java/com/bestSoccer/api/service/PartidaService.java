@@ -3,8 +3,8 @@ package com.bestSoccer.api.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bestSoccer.api.model.PartidaView;
-import com.bestSoccer.api.repository.PartidaRepository;
+import com.bestSoccer.api.model.partida.PartidaView;
+import com.bestSoccer.api.repository.partida.PartidaRepository;
 
 import jakarta.transaction.Transactional;
 

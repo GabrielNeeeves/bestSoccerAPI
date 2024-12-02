@@ -1,7 +1,7 @@
-package com.bestSoccer.api.controller;
+package com.bestSoccer.api.controller.jogador;
 
-import com.bestSoccer.api.model.JogadorView;
-import com.bestSoccer.api.repository.JogadorRepository;
+import com.bestSoccer.api.model.jogador.JogadorView;
+import com.bestSoccer.api.repository.jogador.JogadorRepository;
 import com.bestSoccer.api.service.JogadorService;
 
 import org.springframework.beans.factory.annotation.Autowired;

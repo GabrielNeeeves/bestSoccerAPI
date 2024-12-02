@@ -1,7 +1,7 @@
-package com.bestSoccer.api.repository;
+package com.bestSoccer.api.repository.partida;
 
-import com.bestSoccer.api.model.PartidaModel;
-import com.bestSoccer.api.model.PartidaView;
+import com.bestSoccer.api.model.partida.PartidaModel;
+import com.bestSoccer.api.model.partida.PartidaView;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

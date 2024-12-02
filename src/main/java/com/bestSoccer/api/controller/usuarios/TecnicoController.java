@@ -1,4 +1,4 @@
-package com.bestSoccer.api.controller;
+package com.bestSoccer.api.controller.usuarios;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bestSoccer.api.model.TecnicoView;
-import com.bestSoccer.api.repository.TecnicoRepository;
+import com.bestSoccer.api.model.tecnico.TecnicoView;
+import com.bestSoccer.api.repository.tecnico.TecnicoRepository;
 
 @RestController
 @RequestMapping("/tecnico")

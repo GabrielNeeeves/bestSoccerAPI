@@ -1,7 +1,7 @@
 package com.bestSoccer.api.service;
 
-import com.bestSoccer.api.model.UsuarioView;
-import com.bestSoccer.api.repository.UsuarioRepository;
+import com.bestSoccer.api.model.usuario.UsuarioView;
+import com.bestSoccer.api.repository.usuario.UsuarioRepository;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

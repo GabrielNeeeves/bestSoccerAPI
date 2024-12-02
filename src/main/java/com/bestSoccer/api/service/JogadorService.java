@@ -3,8 +3,8 @@ package com.bestSoccer.api.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bestSoccer.api.model.JogadorView;
-import com.bestSoccer.api.repository.JogadorRepository;
+import com.bestSoccer.api.model.jogador.JogadorView;
+import com.bestSoccer.api.repository.jogador.JogadorRepository;
 
 import jakarta.transaction.Transactional;
 

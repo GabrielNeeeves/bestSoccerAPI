@@ -1,4 +1,4 @@
-package com.bestSoccer.api.model;
+package com.bestSoccer.api.model.usuario;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

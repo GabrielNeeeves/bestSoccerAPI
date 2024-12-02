@@ -1,4 +1,4 @@
-package com.bestSoccer.api.repository;
+package com.bestSoccer.api.repository.estatistica;
 
 import java.util.List;
 
@@ -9,14 +9,14 @@ import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bestSoccer.api.model.EstatisticaModel;
-import com.bestSoccer.api.model.EstatisticaView;
+import com.bestSoccer.api.model.estatistica.EstatisticaModel;
+import com.bestSoccer.api.model.estatistica.EstatisticaView;
 
 public interface EstatisticaRepository extends JpaRepository<EstatisticaModel, Long> {
 
         @Procedure(procedureName = "sp_cadEstatisticaJogador")
         void cadEstatisticaJogador(
-            @Param("jogadorid") Long jogadorid,
+            @Param("jogadorid") int jogadorid,
             @Param("jogodisputado") int jogosdisputados,
             @Param("golsmarcados") int golsmarcados,
             @Param("assistencias") int assistencias,
@@ -33,7 +33,7 @@ public interface EstatisticaRepository extends JpaRepository<EstatisticaModel, L
         List<EstatisticaView> findAllEstatistica();
 
         @Query("SELECT e FROM EstatisticaView e WHERE e.jogadorid = :jogadorid")
-        EstatisticaView findEstatisticasByJogadorId(@Param("jogadorid") Long jogadorid);
+        EstatisticaView findEstatisticasByJogadorId(@Param("jogadorid") int jogadorid);
 
         @Query("SELECT e FROM EstatisticaView e WHERE e.id = :id")
         EstatisticaView findByEstatisticaId(@Param("id") Long id);

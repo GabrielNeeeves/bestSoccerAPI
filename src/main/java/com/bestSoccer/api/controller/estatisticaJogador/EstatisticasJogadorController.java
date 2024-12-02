@@ -1,7 +1,7 @@
-package com.bestSoccer.api.controller;
+package com.bestSoccer.api.controller.estatisticaJogador;
 
-import com.bestSoccer.api.model.EstatisticaView;
-import com.bestSoccer.api.repository.EstatisticaRepository;
+import com.bestSoccer.api.model.estatistica.EstatisticaView;
+import com.bestSoccer.api.repository.estatistica.EstatisticaRepository;
 import com.bestSoccer.api.service.EstatisticaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class EstatisticasJogadorController {
     private EstatisticaService estatisticaService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<EstatisticaView> getEstatisticas(@PathVariable Long id) {
+    public ResponseEntity<EstatisticaView> getEstatisticas(@PathVariable int id) {
         EstatisticaView estatisticas = estatisticaRepository.findEstatisticasByJogadorId(id);
         if (estatisticas != null) {
             return ResponseEntity.ok(estatisticas);
@@ -28,7 +28,7 @@ public class EstatisticasJogadorController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    @PostMapping("/{id}")
+    @PostMapping
     public ResponseEntity<String> postEstatistica(@RequestBody EstatisticaView estatisticaView) {
         EstatisticaView estatisticaExistente = estatisticaRepository.findEstatisticasByJogadorId(estatisticaView.getJogadorid());
         if (estatisticaExistente == null) {
