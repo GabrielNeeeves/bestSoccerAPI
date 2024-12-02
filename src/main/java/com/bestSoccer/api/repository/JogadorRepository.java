@@ -29,8 +29,8 @@ public interface JogadorRepository extends JpaRepository<JogadorModel, Long> {
             @Param("datanascimento") LocalDate datanascimento,
             @Param("foto") String foto);
 
-    @Query("SELECT j FROM JogadorView j")
-    List<JogadorView> findAllJogadores();
+            @Query("SELECT j FROM JogadorView j ORDER BY j.id ASC")
+            List<JogadorView> findAllJogadoresOrdenadosPorId();
 
     @Query("SELECT j FROM JogadorView j WHERE j.id = :id")
     JogadorView findJogadorById(@Param("id") Long id);

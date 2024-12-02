@@ -23,31 +23,72 @@ function carregaMenu() {
 
   function carregaNome() {
     const userSection = document.getElementById("pagina-principal-tecnico");
-    const nomeUsuario = localStorage.getItem("nomeUsuario");
-
+    const nomeUsuario = localStorage.getItem("nomeUsuario") || "Tecnico";
+  
     const nomeAdmin = `
-      <h1 class="mb-4 section-title">Bem-vindo, ${nomeUsuario}</h1>
-      <p class="mb-5">Use o menu para gerenciar jogadores, jogos e técnicos.</p>
-      <div class="row text-center mb-4">
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Total de Jogadores</h5>
-              <p class="card-text display-4">50</p>
+      <div class="container py-5">
+        <h1 class="mb-4 section-title text-center">Bem-vindo, ${nomeUsuario}!</h1>
+        <p class="mb-5 text-center">Use o menu ao lado para gerenciar jogadores, jogos, técnicos e estatísticas.</p>
+        <div class="row text-center g-4">
+          <div class="col-md-4">
+            <div class="card shadow-lg">
+              <div class="card-body">
+                <div class="icon-container mb-3">
+                  <i class="fas fa-users fa-3x text-success"></i>
+                </div>
+                <h5 class="card-title text-success">Total de Jogadores</h5>
+                <p class="card-text display-4 total-jogadores">50</p>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Próximos Jogos</h5>
-              <p class="card-text display-4">8</p>
+          <div class="col-md-4">
+            <div class="card shadow-lg">
+              <div class="card-body">
+                <div class="icon-container mb-3">
+                  <i class="fas fa-calendar-alt fa-3x text-primary"></i>
+                </div>
+                <h5 class="card-title text-primary">Total de Jogos Cadastrado</h5>
+                <p class="card-text display-4 proximos-jogos">8</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card shadow-lg">
+              <div class="card-body">
+                <div class="icon-container mb-3">
+                  <i class="fas fa-chart-line fa-3x text-warning"></i>
+                </div>
+                <h5 class="card-title text-warning">Total de Técnicos Cadastrado</h5>
+                <p class="card-text display-4 total-tecnicos">12</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     `;
+  
     userSection.innerHTML = nomeAdmin;
+    carregaDadosDashboard();
+  }
+  
+  async function carregaDadosDashboard() {
+    try {
+      const totalJogadoresResponse = await fetch("http://localhost:8080/jogadores/total-jogadores");
+      const totalJogadores = await totalJogadoresResponse.json();
+  
+      const proximosJogosResponse = await fetch("http://localhost:8080/partidas/total-partida");
+      const proximosJogos = await proximosJogosResponse.json();
+  
+      const totalTecnicosResponse = await fetch("http://localhost:8080/tecnico/total-tecnico");
+      const totalTecnicos = await totalTecnicosResponse.json();
+  
+      // Atualizar os valores na página
+      document.querySelector(".total-jogadores").textContent = totalJogadores;
+      document.querySelector(".proximos-jogos").textContent = proximosJogos;
+      document.querySelector(".total-tecnicos").textContent = totalTecnicos;
+    } catch (error) {
+      console.error("Erro ao carregar os dados do dashboard:", error);
+    }
   }
 
   function fetchJogadores() {

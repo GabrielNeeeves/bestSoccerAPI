@@ -72,5 +72,11 @@ public class PartidaController {
         }
     }
 
+    @GetMapping("/total-partida")
+    public ResponseEntity<Long> getTotalPartida() {
+        long total = partidaRepository.count();
+        return ResponseEntity.ok(total);
+    }
+
     }
 

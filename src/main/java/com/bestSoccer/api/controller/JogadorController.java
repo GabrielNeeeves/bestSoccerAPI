@@ -23,7 +23,7 @@ public class JogadorController {
 
     @GetMapping
     public ResponseEntity<List<JogadorView>> getJogadores() {
-        List<JogadorView> jogadores = jogadorRepository.findAllJogadores();
+        List<JogadorView> jogadores = jogadorRepository.findAllJogadoresOrdenadosPorId();
         return ResponseEntity.ok(jogadores);
     }
 
