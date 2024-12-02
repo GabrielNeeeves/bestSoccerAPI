@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const jogadorCard = `
                         <div class="col-3 d-flex align-items-stretch">
                             <div class="card mx-2" style="width: 100%; height: 100%;">
-                                <img src="${jogador.foto}" class="card-img-top" style="object-fit: contain;" alt="Foto do Jogador">
+                                <img src="${jogador.foto}" class="card-img-top" style="object-fit: contain;height:100%" alt="Foto do Jogador">
                                 <div class="card-body d-flex flex-column align-items-center justify-content-between">
                                     <h5 class="card-title fs-5 text-center" style="color: #11C770; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                         ${jogador.nome}
