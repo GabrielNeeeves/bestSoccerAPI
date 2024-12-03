@@ -284,6 +284,173 @@ function fetchJogos() {
     });
 }
 
+
+function fetchJogadoresEstatistica() {
+  const apiUrlJogadores = `http://localhost:8080/jogadores`;
+  fetch(apiUrlJogadores)
+      .then(response => {
+          if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
+          return response.json();
+      })
+      .then(jogadores => {
+          const carouselItemsContainer = document.getElementById("cards-jogadores-estatistica");
+          carouselItemsContainer.innerHTML = '';
+
+          let row;
+          jogadores.forEach((jogador, index) => {
+              const apiUrlEstatisticas = `http://localhost:8080/estatisticas-jogador/${jogador.id}`;
+              fetch(apiUrlEstatisticas)
+                  .then(response => response.ok ? response.json() : null)
+                  .then(estatisticas => {
+                      const possuiEstatisticas = estatisticas && Object.keys(estatisticas).length > 0;
+                      
+                      // Verifica se o jogador possui estatísticas antes de adicioná-lo ao container
+                      if (possuiEstatisticas) {
+                          if (index % 3 === 0 && !row) {
+                              row = document.createElement('div');
+                              row.className = 'row g-3 justify-content-center';
+                              carouselItemsContainer.appendChild(row);
+                          } else if (index % 6 === 0 && row.childElementCount === 3) {
+                              row = document.createElement('div');
+                              row.className = 'row g-3 justify-content-center';
+                              carouselItemsContainer.appendChild(row);
+                          }
+
+                          const cardHtml = `
+                              <div class="col-md-2 d-flex align-items-stretch justify-content-center">
+                                  <div class="card mx-2" style="width: 100%; height: 100%; border-radius: 10px;">
+                                      <div class="card-body d-flex flex-column align-items-center justify-content-between">
+                                          <div class="d-flex justify-content-between w-100">
+                                              <button class="btn btn-warning btn-sm" onclick="abrirModalEstatisticas(${jogador.id})">
+                                                  Editar Estatísticas
+                                              </button>
+                                          </div>
+                                          <img src="http://localhost:8080/${jogador.foto}" class="card-img-top" style="object-fit: contain; height: 150px;" alt="Foto do Jogador">
+                                          <h5 class="card-title fs-5 text-center" style="color: #11C770;">${jogador.nome}</h5>
+                                          <p class="card-text text-center"><strong>Posição:</strong> ${jogador.posicao}</p>
+                                          <button class="btn btn-outline-success mt-3" style="width: 100%" onclick="mostrarModal(${jogador.id})">Ver mais</button>
+                                      </div>
+                                  </div>
+                              </div>`;
+                          row.innerHTML += cardHtml;
+                      }
+                  })
+                  .catch(error => console.error(`Erro ao carregar estatísticas para o jogador ${jogador.id}:`, error));
+          });
+      })
+      .catch(error => console.error("Erro ao carregar os jogadores:", error));
+}
+
+
+
+window.abrirModalEstatisticas = function (id) {
+  const apiUrlEstatisticas = `http://localhost:8080/estatisticas-jogador/${id}`;
+
+  const criarCamposFormulario = campos => campos.map(campo => `
+      <div class="col-md-6 mb-3">
+          <label for="${campo.id}" class="form-label">${campo.label}</label>
+          <input type="number" class="form-control" id="${campo.id}" value="${campo.value}">
+      </div>`).join("");
+
+  fetch(apiUrlEstatisticas)
+      .then(response => response.ok ? response.json() : {})
+      .then(estatisticas => {
+          const modalContainer = document.createElement("div");
+          modalContainer.innerHTML = `
+              <div class="modal fade" id="estatisticasModal" tabindex="-1" aria-labelledby="estatisticasModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-lg">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h5 class="modal-title">Estatísticas do Jogador</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                              <form id="estatisticasForm">
+                                  <div class="row">
+                                      ${criarCamposFormulario([
+                                          { label: "Jogos Jogados", id: "jogosdisputados", value: estatisticas.jogosdisputados || 0 },
+                                          { label: "Gols", id: "golsmarcados", value: estatisticas.golsmarcados || 0 },
+                                          { label: "Assistências", id: "assistencias", value: estatisticas.assistencias || 0 },
+                                          { label: "Finalizações", id: "finalizacoes", value: estatisticas.finalizacoes || 0 },
+                                          { label: "Passes", id: "passes", value: estatisticas.passes || 0 },
+                                          { label: "Desarmes", id: "desarmes", value: estatisticas.desarmes || 0 },
+                                          { label: "Faltas Cometidas", id: "faltascometidas", value: estatisticas.faltascometidas || 0 },
+                                          { label: "Cartões Amarelos", id: "cartoesamarelos", value: estatisticas.cartoesamarelos || 0 },
+                                          { label: "Cartões Vermelhos", id: "cartoesvermelhos", value: estatisticas.cartoesvermelhos || 0 }
+                                      ])}
+                                  </div>
+                              </form>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                              <button type="button" class="btn btn-success" id="salvarEstatisticas">Salvar</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>`;
+          document.body.appendChild(modalContainer);
+
+          const modal = new bootstrap.Modal(document.getElementById("estatisticasModal"));
+          modal.show();
+
+          document.getElementById("salvarEstatisticas").addEventListener("click", () => {
+              const estatisticasAtualizadas = {
+                  jogadorid: id,
+                  jogosdisputados: Number(document.getElementById("jogosdisputados").value),
+                  golsmarcados: Number(document.getElementById("golsmarcados").value),
+                  assistencias: Number(document.getElementById("assistencias").value),
+                  finalizacoes: Number(document.getElementById("finalizacoes").value),
+                  passes: Number(document.getElementById("passes").value),
+                  desarmes: Number(document.getElementById("desarmes").value),
+                  faltascometidas: Number(document.getElementById("faltascometidas").value),
+                  cartoesamarelos: Number(document.getElementById("cartoesamarelos").value),
+                  cartoesvermelhos: Number(document.getElementById("cartoesvermelhos").value)
+              };
+          
+              const url = `http://localhost:8080/estatisticas-jogador/${id}`;
+          
+              fetch(url, {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(estatisticasAtualizadas),
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Erro ao salvar estatísticas");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log("Estatísticas atualizadas:", data);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Atualização realizada!',
+                        text: 'Estatísticas atualizadas com sucesso!',
+                        confirmButtonText: 'Entendi'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            modal.hide(); 
+                        }
+                    });
+                })
+                .catch((error) => {
+                    console.error("Erro ao salvar estatísticas:", error);
+                });
+          });
+
+          document.getElementById("estatisticasModal").addEventListener("hidden.bs.modal", () => modalContainer.remove());
+      })
+      .catch(error => console.error("Erro ao carregar estatísticas:", error));
+}
+
+// Chama a função para listar os jogadores ao carregar a página
+window.onload = function () {
+  listarJogadores();
+};
+
+
 document.getElementById("logout-btn").addEventListener("click", function (e) {
   e.preventDefault();
   Swal.fire({
@@ -308,6 +475,7 @@ document.getElementById("logout-btn").addEventListener("click", function (e) {
 
   fetchJogadores();
   fetchJogos();
+  fetchJogadoresEstatistica();
   carregaMenu();
   carregaNome();
 

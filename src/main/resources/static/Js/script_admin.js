@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function carregaNome() {
     const userSection = document.getElementById("pagina-principal");
     const nomeUsuario = localStorage.getItem("nomeUsuario") || "Administrador";
-  
+
     const nomeAdmin = `
       <div class="container py-5">
         <h1 class="mb-4 section-title text-center">Bem-vindo, ${nomeUsuario}!</h1>
@@ -67,24 +67,23 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>
       </div>
     `;
-  
+
     userSection.innerHTML = nomeAdmin;
-  
+
     carregaDadosDashboard();
   }
-  
+
   async function carregaDadosDashboard() {
     try {
       const totalJogadoresResponse = await fetch("http://localhost:8080/jogadores/total-jogadores");
       const totalJogadores = await totalJogadoresResponse.json();
-  
+
       const proximosJogosResponse = await fetch("http://localhost:8080/partidas/total-partida");
       const proximosJogos = await proximosJogosResponse.json();
-  
+
       const totalTecnicosResponse = await fetch("http://localhost:8080/tecnico/total-tecnico");
       const totalTecnicos = await totalTecnicosResponse.json();
-  
-      // Atualizar os valores na página
+
       document.querySelector(".total-jogadores").textContent = totalJogadores;
       document.querySelector(".proximos-jogos").textContent = proximosJogos;
       document.querySelector(".total-tecnicos").textContent = totalTecnicos;
@@ -92,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
       console.error("Erro ao carregar os dados do dashboard:", error);
     }
   }
-    
+
   function fetchJogadores() {
     const apiUrlJogadores = 'http://localhost:8080/jogadores';
     fetch(apiUrlJogadores)
@@ -133,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <p class="card-text fs-6 mt-2 text-center">
                   <span class="fw-bold">Posição:</span> ${jogador.posicao}
                 </p>
-                <button class="btn btn-outline-success mt-3" style="width: 100%;">Ver mais</button>
+                                <button class="btn btn-outline-success mt-3" style="width: 100%" onclick="mostrarModal(${jogador.id})">Ver mais</button>
               </div>
             </div>
           `;
@@ -160,7 +159,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return response.json();
       })
       .then(jogador => {
-        // Cria o modal dinamicamente
         const modalContainer = document.createElement('div');
         modalContainer.innerHTML = `
           <div class="modal fade" id="editarJogadorModal" tabindex="-1" aria-labelledby="editarJogadorModalLabel" aria-hidden="true">
@@ -385,6 +383,8 @@ document.addEventListener('DOMContentLoaded', function () {
       });
   }
 
+  
+
   window.editarJogo = function (id) {
     const apiUrlJogo = `http://localhost:8080/partidas/${id}`;
 
@@ -527,38 +527,63 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  function fetchJogadoresEstatistica() {
-    const apiUrlJogadores = `http://localhost:8080/jogadores?timestamp=${Date.now()}`;
-    fetch(apiUrlJogadores)
-        .then(response => {
-            if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
-            return response.json();
+  function fetchTecnicos() {
+    const apiUrlTecnicos = `http://localhost:8080/tecnico`;
+    fetch(apiUrlTecnicos)
+        .then(response => response.json())
+        .then(tecnicos => {
+            const tecnicosContainer = document.getElementById('lista-tecnico');
+            tecnicosContainer.innerHTML = ''; 
+
+            tecnicos.forEach(tecnico => {
+                const tecnicoCard = document.createElement('div');
+                tecnicoCard.classList.add('card', 'mb-3', 'shadow-sm');
+                tecnicoCard.style.maxWidth = '100%';
+
+                tecnicoCard.innerHTML = `
+                    <div class="card-header" style="background-color: #11C770; color: white;">
+                        <h5 class="card-title">Técnico: ${tecnico.nome}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>ID:</strong> ${tecnico.id}</p>
+                        <p><strong>Email:</strong> ${tecnico.email}</p>
+                        <p><strong>Senha:</strong> ${tecnico.senha}</p>
+                        <p><strong>Contrato:</strong> ${tecnico.contrato}</p>
+                        <div class="d-flex justify-content-end">
+                        </div>
+                    </div>
+                `;
+                tecnicosContainer.appendChild(tecnicoCard);
+            });
         })
-        .then(jogadores => {
-            const carouselItemsContainer = document.getElementById("cards-jogadores-estatistica");
-            carouselItemsContainer.innerHTML = '';
+        .catch(error => console.error('Erro ao carregar os técnicos:', error));
+}
 
-            jogadores.forEach((jogador, index) => {
-                if (index % 5 === 0) {
-                    const row = document.createElement('div');
-                    row.className = 'row g-3 justify-content-center';
-                    carouselItemsContainer.appendChild(row);
-                }
+  function fetchJogadoresEstatistica() {
+    const apiUrlJogadores = `http://localhost:8080/jogadores`;
+    fetch(apiUrlJogadores)
+      .then(response => {
+        if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
+        return response.json();
+      })
+      .then(jogadores => {
+        const carouselItemsContainer = document.getElementById("cards-jogadores-estatistica");
+        carouselItemsContainer.innerHTML = '';
 
-                const apiUrlEstatisticas = `http://localhost:8080/estatisticas-jogador/${jogador.id}`;
-                fetch(apiUrlEstatisticas)
-                    .then(response => {
-                        // Verifica se a resposta é válida
-                        if (!response.ok) {
-                            console.warn(`Estatísticas não encontradas para jogador ${jogador.id}`);
-                            return null; // Retorna `null` se não encontrar estatísticas
-                        }
-                        return response.json();
-                    })
-                    .then(estatisticas => {
-                        const possuiEstatisticas = estatisticas && Object.keys(estatisticas).length > 0;
+        jogadores.forEach((jogador, index) => {
+          if (index % 5 === 0) {
+            const row = document.createElement('div');
+            row.className = 'row g-3 justify-content-center';
+            carouselItemsContainer.appendChild(row);
+          }
 
-                        const cardHtml = `
+          const apiUrlEstatisticas = `http://localhost:8080/estatisticas-jogador/${jogador.id}`;
+          fetch(apiUrlEstatisticas)
+            .then(response => response.ok ? response.json() : null)
+            .then(estatisticas => {
+              const possuiEstatisticas = estatisticas && Object.keys(estatisticas).length > 0;
+
+              const cardHtml = `
                             <div class="col-md-2 d-flex align-items-stretch justify-content-center">
                                 <div class="card mx-2" style="width: 100%; height: 100%; border-radius: 10px;">
                                     <div class="card-body d-flex flex-column align-items-center justify-content-between">
@@ -568,73 +593,57 @@ document.addEventListener('DOMContentLoaded', function () {
                                             </button>
                                         </div>
                                         <img src="http://localhost:8080/${jogador.foto}" class="card-img-top" style="object-fit: contain; height: 150px;" alt="Foto do Jogador">
-                                        <h5 class="card-title fs-5 text-center" style="color: #11C770; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                            ${jogador.nome}
-                                        </h5>
-                                        <p class="card-text fs-6 mt-2 text-center">
-                                            <span class="fw-bold">Posição:</span> ${jogador.posicao}
-                                        </p>
-                                        <button class="btn btn-outline-success mt-3" style="width: 100%;">Ver mais</button>
+                                        <h5 class="card-title fs-5 text-center" style="color: #11C770;">${jogador.nome}</h5>
+                                        <p class="card-text text-center"><strong>Posição:</strong> ${jogador.posicao}</p>
+                <button class="btn btn-outline-success mt-3" style="width: 100%" onclick="mostrarModal(${jogador.id})">Ver mais</button>
                                     </div>
                                 </div>
                             </div>`;
-
-                        carouselItemsContainer.lastChild.innerHTML += cardHtml;
-                    })
-                    .catch(error => console.error(`Erro ao verificar estatísticas para o jogador ${jogador.id}:`, error));
-            });
-        })
-        .catch(error => console.error("Erro ao carregar os jogadores:", error));
-}
-
-  
-window.abrirModalEstatisticas = function (id) {
-  const apiUrlEstatisticas = `http://localhost:8080/estatisticas-jogador/${id}`;
-  fetch(apiUrlEstatisticas)
-      .then(response => {
-          if (!response.ok && response.status !== 404) throw new Error(`Erro ao buscar estatísticas: ${response.statusText}`);
-          return response.status === 404 ? {} : response.json(); // Se não encontrar, retorna um objeto vazio
+              carouselItemsContainer.lastChild.innerHTML += cardHtml;
+            })
+            .catch(error => console.error(`Erro ao carregar estatísticas para o jogador ${jogador.id}:`, error));
+        });
       })
-      .then(estatisticas => {
-          const {
-              jogosdisputados = 0,
-              golsmarcados = 0,
-              assistencias = 0,
-              finalizacoes = 0,
-              passes = 0,
-              desarmes = 0,
-              faltascometidas = 0,
-              cartoesamarelos = 0,
-              cartoesvermelhos = 0
-          } = estatisticas;
+      .catch(error => console.error("Erro ao carregar os jogadores:", error));
+  }
 
-          const modalContainer = document.createElement('div');
-          modalContainer.innerHTML = `
+
+
+  window.abrirModalEstatisticas = function (id) {
+    const apiUrlEstatisticas = `http://localhost:8080/estatisticas-jogador/${id}`;
+
+    const criarCamposFormulario = campos => campos.map(campo => `
+      <div class="col-md-6 mb-3">
+          <label for="${campo.id}" class="form-label">${campo.label}</label>
+          <input type="number" class="form-control" id="${campo.id}" value="${campo.value}">
+      </div>`).join("");
+
+    fetch(apiUrlEstatisticas)
+      .then(response => response.ok ? response.json() : {})
+      .then(estatisticas => {
+        const modalContainer = document.createElement("div");
+        modalContainer.innerHTML = `
               <div class="modal fade" id="estatisticasModal" tabindex="-1" aria-labelledby="estatisticasModalLabel" aria-hidden="true">
                   <div class="modal-dialog modal-lg">
                       <div class="modal-content">
                           <div class="modal-header">
-                              <h5 class="modal-title" id="estatisticasModalLabel">Estatísticas do Jogador</h5>
+                              <h5 class="modal-title">Estatísticas do Jogador</h5>
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
                               <form id="estatisticasForm">
                                   <div class="row">
-                                      ${[
-                                          { label: 'Jogos Jogados', id: 'jogosJogador', value: jogosdisputados },
-                                          { label: 'Gols', id: 'golsJogador', value: golsmarcados },
-                                          { label: 'Assistências', id: 'assistenciasJogador', value: assistencias },
-                                          { label: 'Finalizações', id: 'finalizacoesJogador', value: finalizacoes },
-                                          { label: 'Passes', id: 'passesJogador', value: passes },
-                                          { label: 'Desarmes', id: 'desarmesJogador', value: desarmes },
-                                          { label: 'Faltas Cometidas', id: 'faltasJogador', value: faltascometidas },
-                                          { label: 'Cartões Amarelos', id: 'cartoesAmarelosJogador', value: cartoesamarelos },
-                                          { label: 'Cartões Vermelhos', id: 'cartoesVermelhosJogador', value: cartoesvermelhos }
-                                      ].map(field => `
-                                          <div class="col-md-6 mb-3">
-                                              <label for="${field.id}" class="form-label">${field.label}</label>
-                                              <input type="number" class="form-control" id="${field.id}" value="${field.value}">
-                                          </div>`).join('')}
+                                      ${criarCamposFormulario([
+          { label: "Jogos Jogados", id: "jogosdisputados", value: estatisticas.jogosdisputados || 0 },
+          { label: "Gols", id: "golsmarcados", value: estatisticas.golsmarcados || 0 },
+          { label: "Assistências", id: "assistencias", value: estatisticas.assistencias || 0 },
+          { label: "Finalizações", id: "finalizacoes", value: estatisticas.finalizacoes || 0 },
+          { label: "Passes", id: "passes", value: estatisticas.passes || 0 },
+          { label: "Desarmes", id: "desarmes", value: estatisticas.desarmes || 0 },
+          { label: "Faltas Cometidas", id: "faltascometidas", value: estatisticas.faltascometidas || 0 },
+          { label: "Cartões Amarelos", id: "cartoesamarelos", value: estatisticas.cartoesamarelos || 0 },
+          { label: "Cartões Vermelhos", id: "cartoesvermelhos", value: estatisticas.cartoesvermelhos || 0 }
+        ])}
                                   </div>
                               </form>
                           </div>
@@ -645,40 +654,150 @@ window.abrirModalEstatisticas = function (id) {
                       </div>
                   </div>
               </div>`;
-          document.body.appendChild(modalContainer);
+        document.body.appendChild(modalContainer);
 
-          const modal = new bootstrap.Modal(document.getElementById('estatisticasModal'));
-          modal.show();
+        const modal = new bootstrap.Modal(document.getElementById("estatisticasModal"));
+        modal.show();
 
-          document.getElementById('salvarEstatisticas').addEventListener('click', () => {
-              const estatisticasAtualizadas = Object.fromEntries(
-                  Array.from(document.querySelectorAll('#estatisticasForm input')).map(input => [input.id.replace('Jogador', ''), Number(input.value)])
-              );
+        document.getElementById("salvarEstatisticas").addEventListener("click", () => {
+          const estatisticasAtualizadas = {
+            jogadorid: id,
+            jogosdisputados: Number(document.getElementById("jogosdisputados").value),
+            golsmarcados: Number(document.getElementById("golsmarcados").value),
+            assistencias: Number(document.getElementById("assistencias").value),
+            finalizacoes: Number(document.getElementById("finalizacoes").value),
+            passes: Number(document.getElementById("passes").value),
+            desarmes: Number(document.getElementById("desarmes").value),
+            faltascometidas: Number(document.getElementById("faltascometidas").value),
+            cartoesamarelos: Number(document.getElementById("cartoesamarelos").value),
+            cartoesvermelhos: Number(document.getElementById("cartoesvermelhos").value)
+          };
 
-              const metodoHttp = estatisticas && Object.keys(estatisticas).length > 0 ? 'PUT' : 'POST';
-              fetch(`http://localhost:8080/estatisticas-jogador/${id}`, {
-                  method: metodoHttp,
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify(estatisticasAtualizadas)
-              })
-                  .then(response => {
-                      if (!response.ok) throw new Error();
-                      return response.json();
-                  })
-                  .then(() => {
-                      Swal.fire('Sucesso!', 'Estatísticas salvas com sucesso!', 'success');
-                      modal.hide();
-                      fetchJogadoresEstatistica();
-                  })
-                  .catch(() => Swal.fire('Erro!', 'Falha ao salvar as estatísticas.', 'error'));
-          });
+          const metodoHttp = estatisticas.id ? "PUT" : "POST";
+          const url = `http://localhost:8080/estatisticas-jogador${metodoHttp === "PUT" ? `/${estatisticas.id}` : ""}`;
 
-          document.getElementById('estatisticasModal').addEventListener('hidden.bs.modal', () => modalContainer.remove());
+          fetch(url, {
+            method: metodoHttp,
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(estatisticasAtualizadas),
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Erro ao salvar estatísticas");
+              }
+              return response.json();
+            })
+            .then((data) => {
+              console.log("Estatísticas atualizadas:", data);
+              Swal.fire({
+                icon: 'success',
+                title: 'Cadastro realizado!',
+                text: 'Estatísticas cadastradas com sucesso!',
+                confirmButtonText: 'Entendi'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  modal.hide();
+                }
+              });
+            })
+            .catch((error) => {
+              console.error("Erro ao salvar estatísticas:", error);
+            });
+        });
+
+        document.getElementById("estatisticasModal").addEventListener("hidden.bs.modal", () => modalContainer.remove());
       })
       .catch(error => console.error("Erro ao carregar estatísticas:", error));
-};
+  };
 
-  
+  window.mostrarModal = function (id) {
+    const modalContainer = document.getElementById("modal-container-jogadores") || document.createElement('div');
+    modalContainer.id = "modal-container-jogadores";
+    document.body.appendChild(modalContainer);
+    fetch(`http://localhost:8080/jogadores/${id}`)
+      .then(response => response.json())
+      .then(jogador => {
+        fetch(`http://localhost:8080/estatisticas-jogador/${id}`)
+          .then(response => response.json())
+          .then(estatisticas => {
+            const modalContent = `
+                      <div class="modal fade" id="playerModal" tabindex="-1" aria-labelledby="playerModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-lg">
+                              <div class="modal-content">
+                                  <div class="modal-header border-0">
+                                      <h5 class="modal-title fs-3 text-center text-success" id="playerModalLabel">${jogador.nome}</h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body p-4">
+                                      <div class="row">
+                                          <div class="col-md-4 mb-4 d-flex justify-content-center">
+                                              <img src="http://localhost:8080/${jogador.foto}" class="img-fluid rounded-circle border" alt="Foto do Jogador" style="max-width: 150px; max-height: 150px; object-fit: cover;">
+                                          </div>
+                                          <div class="col-md-8">
+                                              <p><strong>Posição:</strong> ${jogador.posicao}</p>
+                                              <p><strong>Pé Dominante:</strong> ${jogador.pernadominante}</p>
+                                              <p><strong>Contrato:</strong> ${new Date(jogador.contrato).toLocaleDateString('pt-BR')}</p>
+                                              <p><strong>Nacionalidade:</strong> ${jogador.nacionalidade}</p>
+                                              <p><strong>Data de Nascimento:</strong> ${new Date(jogador.datanascimento).toLocaleDateString('pt-BR')}</p>
+
+                                              <h6 class="mt-4 text-success"><strong>Estatísticas:</strong></h6>
+                                              <table class="table table-striped table-bordered">
+                                                  <tbody>
+                                                      <tr>
+                                                          <td><strong>Jogos Jogados</strong></td>
+                                                          <td>${estatisticas.jogosdisputados}</td>
+                                                      </tr>
+                                                      <tr>
+                                                          <td><strong>Gols Marcados</strong></td>
+                                                          <td>${estatisticas.golsmarcados}</td>
+                                                      </tr>
+                                                      <tr>
+                                                          <td><strong>Assistências</strong></td>
+                                                          <td>${estatisticas.assistencias}</td>
+                                                      </tr>
+                                                      <tr>
+                                                          <td><strong>Chutes</strong></td>
+                                                          <td>${estatisticas.finalizacoes}</td>
+                                                      </tr>
+                                                      <tr>
+                                                          <td><strong>Passes</strong></td>
+                                                          <td>${estatisticas.passes}</td>
+                                                      </tr>
+                                                      <tr>
+                                                          <td><strong>Desarmes</strong></td>
+                                                          <td>${estatisticas.desarmes}</td>
+                                                      </tr>
+                                                      <tr>
+                                                          <td><strong>Faltas</strong></td>
+                                                          <td>${estatisticas.faltascometidas}</td>
+                                                      </tr>
+                                                      <tr>
+                                                          <td><strong>Cartões Amarelos</strong></td>
+                                                          <td>${estatisticas.cartoesamarelos}</td>
+                                                      </tr>
+                                                      <tr>
+                                                          <td><strong>Cartões Vermelhos</strong></td>
+                                                          <td>${estatisticas.cartoesvermelhos}</td>
+                                                      </tr>
+                                                  </tbody>
+                                              </table>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  `;
+            modalContainer.innerHTML = modalContent;
+            const modal = new bootstrap.Modal(document.getElementById('playerModal'));
+            modal.show();
+          })
+          .catch(error => console.error("Erro ao buscar estatísticas do jogador:", error));
+      })
+      .catch(error => console.error("Erro ao buscar informações do jogador:", error));
+  }
 
   function formatarTexto(texto) {
     return texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
@@ -718,4 +837,5 @@ window.abrirModalEstatisticas = function (id) {
   fetchJogadores();
   fetchJogos();
   fetchJogadoresEstatistica()
+  fetchTecnicos();
 });
