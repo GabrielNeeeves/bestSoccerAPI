@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div class="bg-success text-white d-flex justify-content-between px-3 py-2">
                       <!-- Data e Hora -->
                       <span>${new Date(partida.data).toLocaleDateString('pt-BR')}</span>
-                      <span>${new Date('1970-01-01T' + partida.hora + 'Z').toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
+                      <span>${partida.hora}</span>
                     </div>
                     <div class="card-body d-flex flex-column align-items-center justify-content-between bg-light" style="padding-bottom: 10px;">
                       <!-- Imagem do Jogo -->

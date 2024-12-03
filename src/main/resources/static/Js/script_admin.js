@@ -588,7 +588,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <div class="card mx-2" style="width: 100%; height: 100%; border-radius: 10px;">
                                     <div class="card-body d-flex flex-column align-items-center justify-content-between">
                                         <div class="d-flex justify-content-between w-100">
-                                            <button class="btn btn-${possuiEstatisticas ? 'warning' : 'success'} btn-sm" onclick="abrirModalEstatisticas(${jogador.id})">
+                                            <button class="btn btn-${possuiEstatisticas ? 'success' : 'success'} btn-sm" onclick="abrirModalEstatisticas(${jogador.id})">
                                                 ${possuiEstatisticas ? 'Editar Estatísticas' : 'Inserir Estatísticas'}
                                             </button>
                                         </div>
